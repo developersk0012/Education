@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SK Education - Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1a237e;
+    --accent: #ff6f00;
+    --gold: #ffd600;
+    --light: #e8eaf6;
+    --white: #ffffff;
+    --text: #212121;
+    --muted: #757575;
+    --danger: #d32f2f;
+    --success: #388e3c;
+    --card-bg: rgba(255,255,255,0.97);
+    --shadow: 0 8px 32px rgba(26,35,126,0.18);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a237e 0%, #283593 40%, #3949ab 70%, #ff6f00 100%);
+    display: flex; align-items: center; justify-content: center;
+    overflow-x: hidden;
+    position: relative;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .container {
+    width: 100%; max-width: 420px; padding: 16px;
+    position: relative; z-index: 1;
+  }
+  .logo-area {
+    text-align: center; margin-bottom: 24px;
+  }
+  .logo-circle {
+    width: 90px; height: 90px;
+    background: var(--white);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    overflow: hidden;
+    border: 3px solid var(--gold);
+  }
+  .logo-circle img { width: 80px; height: 80px; object-fit: contain; }
+  .logo-circle .logo-text-fallback {
+    font-family: 'Baloo 2', cursive;
+    font-size: 26px; font-weight: 800;
+    color: var(--primary);
+    line-height: 1;
+  }
+  .site-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 28px; font-weight: 800;
+    color: var(--white);
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    letter-spacing: 1px;
+  }
+  .site-subtitle {
+    color: var(--gold);
+    font-size: 13px; font-weight: 500;
+    letter-spacing: 2px; text-transform: uppercase;
+  }
+  .card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 32px 28px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .card::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+  }
+  .tabs {
+    display: flex; gap: 4px;
+    background: var(--light);
+    border-radius: 12px; padding: 4px;
+    margin-bottom: 24px;
+  }
+  .tab {
+    flex: 1; padding: 10px;
+    border: none; background: transparent;
+    border-radius: 9px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px; font-weight: 600;
+    color: var(--muted); cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab.active {
+    background: var(--primary); color: var(--white);
+    box-shadow: 0 2px 8px rgba(26,35,126,0.3);
+  }
+  .form-group { margin-bottom: 16px; }
+  label {
+    display: block; font-size: 13px; font-weight: 600;
+    color: var(--text); margin-bottom: 6px;
+  }
+  .input-wrap {
+    position: relative;
+  }
+  .input-wrap .icon {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    font-size: 16px; color: var(--muted);
+  }
+  input[type=text], input[type=tel], input[type=password], input[type=email] {
+    width: 100%; padding: 12px 12px 12px 38px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px; color: var(--text);
+    background: #fafafa;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  input:focus { border-color: var(--primary); background: var(--white); }
+  .otp-row { display: flex; gap: 8px; }
+  .otp-row input { flex: 1; text-align: center; font-size: 18px; font-weight: 700; padding: 12px 4px; letter-spacing: 4px; }
+  .btn {
+    width: 100%; padding: 13px;
+    border: none; border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px; font-weight: 700;
+    cursor: pointer; transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--primary), #3949ab);
+    color: var(--white);
+    box-shadow: 0 4px 15px rgba(26,35,126,0.35);
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(26,35,126,0.45); }
+  .btn-outline {
+    background: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary); margin-top: 8px;
+  }
+  .btn-accent {
+    background: linear-gradient(135deg, var(--accent), #e65100);
+    color: var(--white);
+    box-shadow: 0 4px 15px rgba(255,111,0,0.35);
+  }
+  .divider {
+    display: flex; align-items: center; gap: 12px;
+    margin: 16px 0; color: var(--muted); font-size: 12px;
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1; height: 1px; background: #e0e0e0;
+  }
+  .msg { padding: 10px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; display: none; }
+  .msg.error { background: #ffebee; color: var(--danger); border-left: 3px solid var(--danger); display: block; }
+  .msg.success { background: #e8f5e9; color: var(--success); border-left: 3px solid var(--success); display: block; }
+  .section { display: none; }
+  .section.active { display: block; }
+  .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; margin-right: 6px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .send-otp-btn {
+    padding: 8px 16px; font-size: 13px; font-weight: 600;
+    border: 2px solid var(--primary); border-radius: 8px;
+    background: transparent; color: var(--primary); cursor: pointer;
+    white-space: nowrap; transition: all 0.2s;
+  }
+  .send-otp-btn:hover { background: var(--primary); color: white; }
+  .phone-row { display: flex; gap: 8px; align-items: flex-end; }
+  .phone-row input { flex: 1; }
+  .forgot { text-align: right; font-size: 12px; }
+  .forgot a { color: var(--primary); text-decoration: none; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="logo-area">
+    <div class="logo-circle">
+      <img src="sk.png" alt="SK Education" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="logo-text-fallback" style="display:none">SK</div>
+    </div>
+    <div class="site-title">SK Education</div>
+    <div class="site-subtitle">Swami Vivekanand Study Point</div>
+  </div>
+
+  <div class="card">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('login')">Login</button>
+      <button class="tab" onclick="switchTab('register')">Register</button>
+    </div>
+
+    <!-- LOGIN SECTION -->
+    <div class="section active" id="section-login">
+      <!-- Login by Password -->
+      <div id="login-pass-form">
+        <div id="login-msg"></div>
+        <div class="form-group">
+          <label>📱 Mobile Number / Email</label>
+          <div class="input-wrap">
+            <span class="icon">👤</span>
+            <input type="text" id="login-phone" placeholder="Enter mobile or email">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>🔒 Password</label>
+          <div class="input-wrap">
+            <span class="icon">🔑</span>
+            <input type="password" id="login-password" placeholder="Enter password">
+          </div>
+        </div>
+        <div class="forgot"><a href="#" onclick="showForgot()">Forgot Password?</a></div>
+        <br>
+        <button class="btn btn-primary" onclick="loginWithPassword()">Login</button>
+        <div class="divider">OR</div>
+        <button class="btn btn-outline" onclick="showOTPLogin()">Login with OTP</button>
+      </div>
+
+      <!-- Login by OTP -->
+      <div id="login-otp-form" style="display:none">
+        <div id="login-otp-msg"></div>
+        <div class="form-group">
+          <label>📱 Mobile Number</label>
+          <div class="phone-row">
+            <div class="input-wrap" style="flex:1">
+              <span class="icon">📞</span>
+              <input type="tel" id="otp-phone" placeholder="10 digit mobile number" maxlength="10">
+            </div>
+            <button class="send-otp-btn" onclick="sendOTP('login')">Send OTP</button>
+          </div>
+        </div>
+        <div class="form-group" id="otp-verify-group" style="display:none">
+          <label>Enter OTP</label>
+          <input type="text" id="otp-input" placeholder="Enter 6-digit OTP" maxlength="6" style="text-align:center;letter-spacing:8px;font-size:20px;padding:12px">
+        </div>
+        <button class="btn btn-accent" id="verify-otp-btn" style="display:none" onclick="verifyOTP('login')">Verify & Login</button>
+        <div class="divider">OR</div>
+        <button class="btn btn-outline" onclick="showPassLogin()">Login with Password</button>
+      </div>
+    </div>
+
+    <!-- REGISTER SECTION -->
+    <div class="section" id="section-register">
+      <div id="reg-msg"></div>
+      <div class="form-group">
+        <label>👤 Full Name</label>
+        <div class="input-wrap">
+          <span class="icon">✏️</span>
+          <input type="text" id="reg-name" placeholder="Enter your full name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>📱 Mobile Number</label>
+        <div class="phone-row">
+          <div class="input-wrap" style="flex:1">
+            <span class="icon">📞</span>
+            <input type="tel" id="reg-phone" placeholder="10 digit mobile number" maxlength="10">
+          </div>
+          <button class="send-otp-btn" onclick="sendOTP('reg')">Send OTP</button>
+        </div>
+      </div>
+      <div class="form-group" id="reg-otp-group" style="display:none">
+        <label>Enter OTP</label>
+        <input type="text" id="reg-otp" placeholder="Enter 6-digit OTP" maxlength="6" style="text-align:center;letter-spacing:8px;font-size:20px;padding:12px">
+      </div>
+      <div class="form-group">
+        <label>🔒 Password</label>
+        <div class="input-wrap">
+          <span class="icon">🔑</span>
+          <input type="password" id="reg-password" placeholder="Create password (min 6 chars)">
+        </div>
+      </div>
+      <button class="btn btn-accent" onclick="registerUser()">Register & Get Welcome PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, signInWithPhoneNumber, RecaptchaVerifier, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAXvrUDLT9JosL5eE4SsXqiuGP8rmS9RYk",
+  authDomain: "education-bd8a9.firebaseapp.com",
+  databaseURL: "https://education-bd8a9-default-rtdb.firebaseio.com",
+  projectId: "education-bd8a9",
+  storageBucket: "education-bd8a9.firebasestorage.app",
+  messagingSenderId: "44581091231",
+  appId: "1:44581091231:android:76d10f0d2597d3b64bafaa"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+let confirmationResult = null;
+let currentOTPMode = null; // 'login' or 'reg'
+
+window.switchTab = (tab) => {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('section-' + tab).classList.add('active');
+};
+
+window.showOTPLogin = () => {
+  document.getElementById('login-pass-form').style.display = 'none';
+  document.getElementById('login-otp-form').style.display = 'block';
+};
+window.showPassLogin = () => {
+  document.getElementById('login-pass-form').style.display = 'block';
+  document.getElementById('login-otp-form').style.display = 'none';
+};
+
+function showMsg(id, text, type) {
+  const el = document.getElementById(id);
+  el.className = 'msg ' + type;
+  el.textContent = text;
+  el.style.display = 'block';
+}
+
+// Setup recaptcha
+function setupRecaptcha(buttonId) {
+  if (window.recaptchaVerifier) {
+    window.recaptchaVerifier.clear();
+  }
+  window.recaptchaVerifier = new RecaptchaVerifier(auth, buttonId, { size: 'invisible' });
+}
+
+window.sendOTP = async (mode) => {
+  currentOTPMode = mode;
+  const phoneEl = mode === 'login' ? document.getElementById('otp-phone') : document.getElementById('reg-phone');
+  const phone = phoneEl.value.trim();
+  if (phone.length !== 10) {
+    showMsg(mode === 'login' ? 'login-otp-msg' : 'reg-msg', '❌ Please enter valid 10-digit mobile number', 'error');
+    return;
+  }
+  const fullPhone = '+91' + phone;
+  try {
+    const btnId = mode === 'login' ? 'verify-otp-btn' : 'reg-otp-group';
+    setupRecaptcha(mode === 'login' ? 'verify-otp-btn' : 'reg-phone');
+    confirmationResult = await signInWithPhoneNumber(auth, fullPhone, window.recaptchaVerifier);
+    if (mode === 'login') {
+      document.getElementById('otp-verify-group').style.display = 'block';
+      document.getElementById('verify-otp-btn').style.display = 'block';
+      showMsg('login-otp-msg', '✅ OTP sent to +91' + phone, 'success');
+    } else {
+      document.getElementById('reg-otp-group').style.display = 'block';
+      showMsg('reg-msg', '✅ OTP sent to +91' + phone, 'success');
+    }
+  } catch (e) {
+    const msgId = mode === 'login' ? 'login-otp-msg' : 'reg-msg';
+    showMsg(msgId, '❌ ' + e.message, 'error');
+  }
+};
+
+window.verifyOTP = async (mode) => {
+  const otpEl = mode === 'login' ? document.getElementById('otp-input') : document.getElementById('reg-otp');
+  const otp = otpEl.value.trim();
+  if (otp.length !== 6) {
+    showMsg(mode === 'login' ? 'login-otp-msg' : 'reg-msg', '❌ Enter 6-digit OTP', 'error');
+    return;
+  }
+  try {
+    const result = await confirmationResult.confirm(otp);
+    const user = result.user;
+    // Check if user exists in DB
+    const snap = await get(child(ref(db), 'users/' + user.uid));
+    if (snap.exists()) {
+      localStorage.setItem('sk_user', JSON.stringify({ uid: user.uid, ...snap.val() }));
+      window.location.href = 'user/index.html';
+    } else {
+      // New user - store phone and redirect to complete registration
+      localStorage.setItem('sk_temp_uid', user.uid);
+      localStorage.setItem('sk_temp_phone', user.phoneNumber);
+      showMsg(mode === 'login' ? 'login-otp-msg' : 'reg-msg', '✅ OTP Verified! Completing registration...', 'success');
+      setTimeout(() => { switchTab('register'); }, 1000);
+    }
+  } catch (e) {
+    showMsg(mode === 'login' ? 'login-otp-msg' : 'reg-msg', '❌ Invalid OTP: ' + e.message, 'error');
+  }
+};
+
+window.loginWithPassword = async () => {
+  const phone = document.getElementById('login-phone').value.trim();
+  const password = document.getElementById('login-password').value.trim();
+  if (!phone || !password) { showMsg('login-msg', '❌ Please fill all fields', 'error'); return; }
+  try {
+    // Try email login, if phone number use phone@skedu.com format
+    const email = phone.includes('@') ? phone : phone + '@skeducation.in';
+    const cred = await signInWithEmailAndPassword(auth, email, password);
+    const snap = await get(child(ref(db), 'users/' + cred.user.uid));
+    if (snap.exists()) {
+      localStorage.setItem('sk_user', JSON.stringify({ uid: cred.user.uid, ...snap.val() }));
+      window.location.href = 'user/index.html';
+    }
+  } catch (e) {
+    showMsg('login-msg', '❌ Invalid credentials. Try OTP login.', 'error');
+  }
+};
+
+window.registerUser = async () => {
+  const name = document.getElementById('reg-name').value.trim();
+  const phone = document.getElementById('reg-phone').value.trim();
+  const password = document.getElementById('reg-password').value.trim();
+  const otp = document.getElementById('reg-otp').value.trim();
+
+  if (!name) { showMsg('reg-msg', '❌ Enter your name', 'error'); return; }
+  if (phone.length !== 10) { showMsg('reg-msg', '❌ Enter valid mobile number', 'error'); return; }
+  if (password.length < 6) { showMsg('reg-msg', '❌ Password must be at least 6 characters', 'error'); return; }
+
+  let uid = localStorage.getItem('sk_temp_uid');
+  
+  if (!uid) {
+    // Register with email/password if OTP not used
+    try {
+      const email = phone + '@skeducation.in';
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      uid = cred.user.uid;
+    } catch(e) {
+      if (otp && confirmationResult) {
+        try {
+          const result = await confirmationResult.confirm(otp);
+          uid = result.user.uid;
+        } catch(e2) {
+          showMsg('reg-msg', '❌ OTP verification failed', 'error');
+          return;
+        }
+      } else {
+        showMsg('reg-msg', '❌ Please verify OTP first or enter valid details', 'error');
+        return;
+      }
+    }
+  }
+
+  const userData = {
+    name, phone,
+    class: '10th',
+    school: 'Swami Vivekanand Study Point',
+    registeredAt: new Date().toISOString(),
+    role: 'student'
+  };
+
+  await set(ref(db, 'users/' + uid), userData);
+  localStorage.setItem('sk_user', JSON.stringify({ uid, ...userData }));
+  localStorage.removeItem('sk_temp_uid');
+  localStorage.removeItem('sk_temp_phone');
+
+  // Generate welcome PDF
+  generateWelcomePDF(name, phone, uid);
+};
+
+function generateWelcomePDF(name, phone, uid) {
+  showMsg('reg-msg', '✅ Registration successful! Generating your card...', 'success');
+  
+  // Store for PDF page
+  localStorage.setItem('sk_new_reg', JSON.stringify({ name, phone, uid }));
+  
+  setTimeout(() => {
+    window.location.href = 'welcome.html';
+  }, 1500);
+}
+
+window.showForgot = () => {
+  alert('Please use OTP login to reset your account access.');
+};
+
+// Check if already logged in
+const saved = localStorage.getItem('sk_user');
+if (saved) { window.location.href = 'user/index.html'; }
+</script>
+</body>
+</html>

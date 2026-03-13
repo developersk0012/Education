@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SK Education - Welcome Card</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a237e, #ff6f00);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .wrapper { max-width: 500px; width: 100%; }
+  .card {
+    background: white; border-radius: 20px; overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .card-header {
+    background: linear-gradient(135deg, #1a237e, #3949ab);
+    padding: 24px; text-align: center; color: white;
+  }
+  .card-header .logo { font-family: 'Baloo 2', cursive; font-size: 26px; font-weight: 800; }
+  .card-header .sub { font-size: 12px; opacity: 0.8; letter-spacing: 2px; text-transform: uppercase; }
+  .card-body { padding: 32px 28px; }
+  .welcome-text { font-size: 22px; font-weight: 700; color: #1a237e; margin-bottom: 8px; }
+  .student-info { background: #e8eaf6; border-radius: 12px; padding: 20px; margin: 20px 0; }
+  .info-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #c5cae9; }
+  .info-row:last-child { border-bottom: none; }
+  .info-label { font-size: 13px; color: #757575; font-weight: 500; }
+  .info-value { font-size: 14px; color: #1a237e; font-weight: 700; }
+  .badge {
+    background: linear-gradient(135deg, #ff6f00, #e65100);
+    color: white; border-radius: 20px; padding: 6px 16px;
+    font-size: 12px; font-weight: 700; display: inline-block;
+    margin-bottom: 20px;
+  }
+  .btn {
+    display: block; width: 100%; padding: 14px;
+    border: none; border-radius: 12px; font-size: 15px; font-weight: 700;
+    cursor: pointer; font-family: 'Poppins', sans-serif;
+    transition: all 0.2s; text-decoration: none; text-align: center;
+    margin-bottom: 10px;
+  }
+  .btn-download {
+    background: linear-gradient(135deg, #1a237e, #3949ab);
+    color: white; box-shadow: 0 4px 15px rgba(26,35,126,0.3);
+  }
+  .btn-goto {
+    background: linear-gradient(135deg, #ff6f00, #e65100);
+    color: white; box-shadow: 0 4px 15px rgba(255,111,0,0.3);
+  }
+  .card-footer {
+    background: #f5f5f5; padding: 16px; text-align: center;
+    font-size: 12px; color: #757575;
+  }
+  #preview-area {
+    background: white; border: 2px solid #e0e0e0; border-radius: 12px;
+    padding: 20px; margin-bottom: 20px; display: none;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="card">
+    <div class="card-header">
+      <div class="logo">🎓 SK Education</div>
+      <div class="sub">Swami Vivekanand Study Point</div>
+    </div>
+    <div class="card-body">
+      <div class="welcome-text" id="welcome-name">Welcome!</div>
+      <div class="badge">🎉 Registration Successful</div>
+      <p style="color:#616161; font-size:14px; margin-bottom:16px">
+        Your account has been created successfully. Download your identity card below.
+      </p>
+      <div class="student-info">
+        <div class="info-row">
+          <span class="info-label">👤 Name</span>
+          <span class="info-value" id="d-name">-</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">📱 Mobile</span>
+          <span class="info-value" id="d-phone">-</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">📚 Class</span>
+          <span class="info-value">10th</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">🏫 Institution</span>
+          <span class="info-value">Swami Vivekanand Study Point</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">📅 Registered</span>
+          <span class="info-value" id="d-date">-</span>
+        </div>
+      </div>
+      <button class="btn btn-download" onclick="downloadPDF()">⬇️ Download ID Card (PDF)</button>
+      <a class="btn btn-goto" href="user/index.html">📖 Go to Dashboard</a>
+    </div>
+    <div class="card-footer">SK Education • Direction to Success</div>
+  </div>
+</div>
+
+<script>
+  const reg = JSON.parse(localStorage.getItem('sk_new_reg') || '{}');
+  if (!reg.name) {
+    const user = JSON.parse(localStorage.getItem('sk_user') || '{}');
+    if (user.name) {
+      reg.name = user.name; reg.phone = user.phone;
+    }
+  }
+
+  document.getElementById('welcome-name').textContent = 'Welcome, ' + (reg.name || 'Student') + '! 🎉';
+  document.getElementById('d-name').textContent = reg.name || '-';
+  document.getElementById('d-phone').textContent = reg.phone || '-';
+  document.getElementById('d-date').textContent = new Date().toLocaleDateString('en-IN');
+
+  window.downloadPDF = function() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a5' });
+
+    // Background
+    doc.setFillColor(26, 35, 126);
+    doc.rect(0, 0, 148, 210, 'F');
+
+    // White card area
+    doc.setFillColor(255, 255, 255);
+    doc.roundedRect(10, 10, 128, 190, 8, 8, 'F');
+
+    // Header
+    doc.setFillColor(26, 35, 126);
+    doc.roundedRect(10, 10, 128, 45, 8, 8, 'F');
+    doc.setFillColor(26, 35, 126);
+    doc.rect(10, 40, 128, 15, 'F');
+
+    // Title
+    doc.setTextColor(255, 214, 0);
+    doc.setFontSize(18);
+    doc.setFont('helvetica', 'bold');
+    doc.text('SK EDUCATION', 74, 26, { align: 'center' });
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Swami Vivekanand Study Point', 74, 34, { align: 'center' });
+    doc.text('Direction to Success', 74, 41, { align: 'center' });
+
+    // Student ID Card title
+    doc.setTextColor(26, 35, 126);
+    doc.setFontSize(13);
+    doc.setFont('helvetica', 'bold');
+    doc.text('STUDENT IDENTITY CARD', 74, 68, { align: 'center' });
+
+    // Divider line
+    doc.setDrawColor(255, 111, 0);
+    doc.setLineWidth(0.8);
+    doc.line(20, 72, 128, 72);
+
+    // Avatar circle
+    doc.setFillColor(232, 234, 246);
+    doc.circle(74, 92, 18, 'F');
+    doc.setTextColor(26, 35, 126);
+    doc.setFontSize(22);
+    doc.text((reg.name || 'S').charAt(0).toUpperCase(), 74, 98, { align: 'center' });
+
+    // Student details
+    const details = [
+      ['Name', reg.name || '-'],
+      ['Mobile', reg.phone || '-'],
+      ['Class', '10th'],
+      ['Institution', 'Swami Vivekanand Study Point'],
+      ['Registered', new Date().toLocaleDateString('en-IN')],
+    ];
+
+    let y = 120;
+    details.forEach(([label, value]) => {
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(120, 120, 120);
+      doc.text(label + ':', 20, y);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(26, 35, 126);
+      const truncated = value.length > 30 ? value.substring(0, 30) + '...' : value;
+      doc.text(truncated, 20, y + 5);
+      y += 13;
+    });
+
+    // Footer bar
+    doc.setFillColor(255, 111, 0);
+    doc.rect(10, 185, 128, 15, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+    doc.text('skeducation.in  •  Valid for Academic Year 2026-27', 74, 194, { align: 'center' });
+
+    doc.save('SK_Education_Card_' + (reg.name || 'student').replace(/ /g,'_') + '.pdf');
+  };
+</script>
+</body>
+</html>
