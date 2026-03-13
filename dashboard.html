@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SK Education – Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--pri:#1a237e;--acc:#ff6f00;--gold:#ffd600;--bg:#f0f2ff;--card:#fff;--muted:#757575}
+body{font-family:'Poppins',sans-serif;background:var(--bg);min-height:100vh;padding-bottom:76px}
+
+/* HEADER */
+.header{background:linear-gradient(135deg,#1a237e 0%,#283593 60%,#3949ab 100%);color:#fff;padding:0 16px;position:sticky;top:0;z-index:100;box-shadow:0 3px 16px rgba(26,35,126,.35)}
+.header-inner{display:flex;justify-content:space-between;align-items:center;height:58px}
+.h-left{display:flex;align-items:center;gap:10px}
+.h-logo{width:36px;height:36px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;border:2px solid var(--gold);overflow:hidden;flex-shrink:0}
+.h-logo img{width:30px;height:30px;object-fit:contain}
+.h-logo .lf{font-family:'Baloo 2',cursive;font-size:15px;font-weight:800;color:var(--pri)}
+.site-name{font-family:'Baloo 2',cursive;font-size:19px;font-weight:800;line-height:1}
+.site-name span{display:block;font-family:'Poppins',sans-serif;font-size:10px;font-weight:400;opacity:.7;letter-spacing:.5px}
+.h-icons{display:flex;gap:8px}
+.icon-btn{background:rgba(255,255,255,.15);border:none;color:#fff;width:34px;height:34px;border-radius:50%;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.icon-btn:hover{background:rgba(255,255,255,.25)}
+.greeting-bar{padding:10px 16px 12px;background:linear-gradient(135deg,#1a237e,#283593)}
+.greeting-text{font-size:13px;color:rgba(255,255,255,.85)}
+.greeting-name{font-size:17px;font-weight:700;color:#fff}
+
+/* SLIDER */
+.slider-outer{position:relative;overflow:hidden;height:170px;background:linear-gradient(135deg,#1a237e,#ff6f00)}
+.slider-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s}
+.slider-img.active{opacity:1}
+.slider-default{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;gap:6px}
+.slider-default .sd-logo{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;border:2px solid rgba(255,255,255,.3)}
+.slider-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:5px}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.45);cursor:pointer;transition:all .2s}
+.dot.active{background:#fff;width:18px;border-radius:3px}
+
+/* SECTION */
+.sec-head{padding:16px 16px 8px;display:flex;align-items:center;gap:8px}
+.sec-title{font-size:14px;font-weight:700;color:var(--pri)}
+.sec-more{margin-left:auto;font-size:12px;color:var(--acc);font-weight:600;text-decoration:none}
+
+/* MENU GRID */
+.menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 14px 4px}
+.menu-item{background:var(--card);border-radius:14px;padding:14px 6px 12px;text-align:center;cursor:pointer;box-shadow:0 2px 10px rgba(26,35,126,.08);transition:all .18s;text-decoration:none;display:block;position:relative;border:1.5px solid transparent}
+.menu-item:active,.menu-item:hover{border-color:var(--pri);transform:scale(.97)}
+.menu-item .mi-icon{font-size:26px;margin-bottom:6px;display:block}
+.menu-item .mi-label{font-size:11px;font-weight:600;color:#333;line-height:1.3}
+.free-dot{position:absolute;top:7px;right:7px;background:#4caf50;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:8px}
+
+/* COURSE CARDS (horizontal scroll) */
+.h-scroll{display:flex;gap:12px;padding:4px 14px 12px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.h-scroll::-webkit-scrollbar{display:none}
+.course-card{min-width:170px;background:var(--card);border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(26,35,126,.1);cursor:pointer;transition:all .18s;flex-shrink:0}
+.course-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(26,35,126,.18)}
+.cc-thumb{width:100%;height:100px;object-fit:cover;display:block}
+.cc-thumb-fall{width:100%;height:100px;display:flex;align-items:center;justify-content:center;font-size:36px;background:linear-gradient(135deg,#e8eaf6,#c5cae9)}
+.cc-body{padding:10px}
+.cc-cat{font-size:9px;font-weight:700;color:var(--acc);text-transform:uppercase;letter-spacing:1px}
+.cc-title{font-size:12px;font-weight:700;color:#212121;margin:3px 0 4px;line-height:1.3}
+.cc-tags{display:flex;gap:4px;flex-wrap:wrap}
+.tag{padding:2px 7px;border-radius:8px;font-size:9px;font-weight:700}
+.tag-free{background:#e8f5e9;color:#2e7d32}
+.tag-paid{background:#fff3e0;color:#e65100}
+.tag-video{background:#e3f2fd;color:#1565c0}
+.tag-pdf{background:#fce4ec;color:#c62828}
+.cc-btn{display:block;width:100%;padding:7px;background:var(--pri);color:#fff;border:none;font-size:11px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;transition:background .2s}
+.cc-btn:hover{background:#283593}
+
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;border-top:1px solid #e8e8e8;box-shadow:0 -3px 20px rgba(26,35,126,.1);z-index:200}
+.bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px;text-decoration:none;color:var(--muted);font-size:10px;font-weight:500;gap:2px;transition:color .2s;border:none;background:none;font-family:'Poppins',sans-serif;cursor:pointer}
+.bnav-item .ni{font-size:22px}
+.bnav-item.active{color:var(--pri)}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;backdrop-filter:blur(2px)}
+.modal-bg.open{display:flex;align-items:flex-end}
+.modal-box{background:#fff;border-radius:22px 22px 0 0;width:100%;padding:24px 22px;max-height:88vh;overflow-y:auto;animation:slideUp .25s ease}
+@keyframes slideUp{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-close{float:right;background:none;border:none;font-size:24px;cursor:pointer;color:#9e9e9e;line-height:1;padding:0}
+.modal-title{font-size:17px;font-weight:700;color:var(--pri);margin-bottom:6px;line-height:1.3}
+.modal-meta{font-size:12px;color:var(--muted);margin-bottom:16px}
+.yt-frame{width:100%;aspect-ratio:16/9;border:none;border-radius:12px}
+.pdf-open{display:flex;align-items:center;gap:10px;background:#e8eaf6;border-radius:12px;padding:16px;text-decoration:none;color:var(--pri);font-weight:600;font-size:14px;margin-bottom:10px}
+.modal-desc{font-size:13px;color:#616161;line-height:1.6;margin-top:12px}
+
+/* SIDE MENU */
+.side-menu{display:none;position:fixed;inset:0;z-index:600}
+.side-menu.open{display:block}
+.side-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.5)}
+.side-panel{position:absolute;right:0;top:0;bottom:0;width:260px;background:#fff;padding:0;overflow-y:auto;animation:slideIn .25s ease}
+@keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.side-head{background:linear-gradient(135deg,var(--pri),#3949ab);padding:28px 20px 20px;color:#fff}
+.side-avatar{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;border:2px solid rgba(255,255,255,.4);font-family:'Baloo 2',cursive;margin-bottom:10px}
+.side-name{font-size:15px;font-weight:700}
+.side-email{font-size:11px;opacity:.75;margin-top:2px}
+.side-links{padding:10px 0}
+.side-link{display:flex;align-items:center;gap:12px;padding:13px 20px;color:#333;text-decoration:none;font-size:14px;font-weight:500;transition:background .15s;border:none;background:none;width:100%;font-family:'Poppins',sans-serif;cursor:pointer}
+.side-link:hover{background:#f0f2ff}
+.side-link .sl-icon{font-size:18px;width:28px;text-align:center}
+.side-link.danger{color:#c62828}
+.side-divider{height:1px;background:#f0f0f0;margin:4px 0}
+
+/* LOADING */
+.loading-box{text-align:center;padding:40px;color:var(--muted)}
+.spin{display:inline-block;width:28px;height:28px;border:3px solid #e0e0e0;border-top-color:var(--pri);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.no-data{text-align:center;padding:32px;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="h-left">
+      <div class="h-logo">
+        <img src="sk.png" alt="SK" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="lf" style="display:none">SK</div>
+      </div>
+      <div class="site-name">SK Education<span>Swami Vivekanand Study Point</span></div>
+    </div>
+    <div class="h-icons">
+      <button class="icon-btn" onclick="openMenu()">☰</button>
+    </div>
+  </div>
+  <div class="greeting-bar">
+    <div class="greeting-text">Namaskar 🙏</div>
+    <div class="greeting-name" id="g-name">Student</div>
+  </div>
+</div>
+
+<!-- SLIDER -->
+<div class="slider-outer" id="slider">
+  <div class="slider-default">
+    <div class="sd-logo">SK</div>
+    <div style="font-family:'Baloo 2',cursive;font-size:18px;font-weight:700">SK Education</div>
+    <div style="font-size:12px;opacity:.8">Swami Vivekanand Study Point</div>
+  </div>
+</div>
+
+<!-- STUDY MENU -->
+<div class="sec-head"><div class="sec-title">📚 Study Materials</div></div>
+<div class="menu-grid">
+  <a class="menu-item free-badge" href="courses.html?f=free">
+    <div class="free-dot">FREE</div>
+    <span class="mi-icon">📖</span><div class="mi-label">Free Courses</div>
+  </a>
+  <a class="menu-item" href="courses.html?f=paid">
+    <span class="mi-icon">🎓</span><div class="mi-label">Paid Course</div>
+  </a>
+  <a class="menu-item" href="courses.html?f=free&t=pdf">
+    <div class="free-dot">FREE</div>
+    <span class="mi-icon">📝</span><div class="mi-label">Free Notes</div>
+  </a>
+  <a class="menu-item" href="courses.html?f=paid&t=pdf">
+    <span class="mi-icon">📋</span><div class="mi-label">Paid Notes</div>
+  </a>
+  <a class="menu-item" href="courses.html?cat=NCERT">
+    <span class="mi-icon">📚</span><div class="mi-label">NCERT Book</div>
+  </a>
+  <a class="menu-item" href="courses.html">
+    <span class="mi-icon">✅</span><div class="mi-label">Free Test</div>
+  </a>
+  <a class="menu-item" href="courses.html?cat=Hindi">
+    <span class="mi-icon">🗣️</span><div class="mi-label">Hindi</div>
+  </a>
+  <a class="menu-item" href="courses.html?cat=Math">
+    <span class="mi-icon">➗</span><div class="mi-label">Math</div>
+  </a>
+  <a class="menu-item" href="courses.html?cat=Science">
+    <span class="mi-icon">🔬</span><div class="mi-label">Science</div>
+  </a>
+</div>
+
+<!-- LATEST COURSES -->
+<div class="sec-head">
+  <div class="sec-title">🔥 Latest Courses</div>
+  <a class="sec-more" href="courses.html">Sab dekhein →</a>
+</div>
+<div id="courses-wrap">
+  <div class="loading-box"><div class="spin"></div></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bnav">
+  <a class="bnav-item active" href="dashboard.html"><span class="ni">🏠</span>Home</a>
+  <a class="bnav-item" href="courses.html"><span class="ni">🎓</span>Courses</a>
+  <a class="bnav-item" href="courses.html?t=pdf"><span class="ni">📄</span>Notes</a>
+  <a class="bnav-item" href="profile.html"><span class="ni">👤</span>Profile</a>
+</div>
+
+<!-- COURSE MODAL -->
+<div class="modal-bg" id="c-modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box" id="c-modal-body"></div>
+</div>
+
+<!-- SIDE MENU -->
+<div class="side-menu" id="side-menu">
+  <div class="side-backdrop" onclick="closeMenu()"></div>
+  <div class="side-panel">
+    <div class="side-head">
+      <div class="side-avatar" id="sm-av">S</div>
+      <div class="side-name" id="sm-name">Student</div>
+      <div class="side-email" id="sm-email"></div>
+    </div>
+    <div class="side-links">
+      <a class="side-link" href="dashboard.html"><span class="sl-icon">🏠</span>Home</a>
+      <a class="side-link" href="courses.html"><span class="sl-icon">🎓</span>Mere Courses</a>
+      <a class="side-link" href="profile.html"><span class="sl-icon">👤</span>Profile</a>
+      <div class="side-divider"></div>
+      <button class="side-link danger" onclick="doLogout()"><span class="sl-icon">🚪</span>Logout</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const app = initializeApp({
+  apiKey:"AIzaSyAXvrUDLT9JosL5eE4SsXqiuGP8rmS9RYk",
+  authDomain:"education-bd8a9.firebaseapp.com",
+  databaseURL:"https://education-bd8a9-default-rtdb.firebaseio.com",
+  projectId:"education-bd8a9",
+  storageBucket:"education-bd8a9.firebasestorage.app",
+  messagingSenderId:"44581091231",
+  appId:"1:44581091231:android:76d10f0d2597d3b64bafaa"
+});
+const db = getDatabase(app);
+
+const saved = localStorage.getItem('sk_user');
+if(!saved){ window.location.href='index.html'; }
+const user = JSON.parse(saved||'{}');
+
+document.getElementById('g-name').textContent = user.name || 'Student';
+document.getElementById('sm-name').textContent = user.name || 'Student';
+document.getElementById('sm-email').textContent = user.email || '';
+document.getElementById('sm-av').textContent = (user.name||'S').charAt(0).toUpperCase();
+
+window.openMenu = () => document.getElementById('side-menu').classList.add('open');
+window.closeMenu = () => document.getElementById('side-menu').classList.remove('open');
+window.doLogout = () => { if(confirm('Logout karna chahte hain?')){ localStorage.removeItem('sk_user'); window.location.href='index.html'; } };
+
+// SLIDER
+async function loadSlider(){
+  try{
+    const snap = await get(ref(db,'slider'));
+    if(!snap.exists()) return;
+    const imgs = Object.values(snap.val());
+    const sl = document.getElementById('slider');
+    sl.innerHTML = imgs.map((s,i)=>`<img class="slider-img${i===0?' active':''}" src="${s.url||s}" alt="slide">`).join('')
+      + '<div class="slider-dots">'+imgs.map((_,i)=>`<div class="dot${i===0?' active':''}" onclick="goSlide(${i})"></div>`).join('')+'</div>';
+    let cur=0;
+    window.goSlide=(n)=>{
+      document.querySelectorAll('.slider-img').forEach((el,i)=>el.classList.toggle('active',i===n));
+      document.querySelectorAll('.dot').forEach((el,i)=>el.classList.toggle('active',i===n));
+      cur=n;
+    };
+    if(imgs.length>1) setInterval(()=>{ cur=(cur+1)%imgs.length; window.goSlide(cur); },3500);
+  }catch(e){}
+}
+
+// COURSES
+let allCourses = [];
+async function loadCourses(){
+  try{
+    const snap = await get(ref(db,'courses'));
+    const wrap = document.getElementById('courses-wrap');
+    if(!snap.exists()){ wrap.innerHTML='<div class="no-data">Abhi koi course nahi hai</div>'; return; }
+    allCourses = Object.entries(snap.val()).reverse();
+    const recent = allCourses.slice(0,12);
+    wrap.innerHTML = '<div class="h-scroll">'+recent.map(([id,c])=>courseCard(id,c)).join('')+'</div>';
+  }catch(e){ document.getElementById('courses-wrap').innerHTML='<div class="no-data">Load nahi ho saka</div>'; }
+}
+
+function courseCard(id,c){
+  const thumb = c.posterUrl ? `<img class="cc-thumb" src="${c.posterUrl}" alt="${c.title}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">` : '';
+  return `<div class="course-card" onclick="openCourse('${id}')">
+    ${thumb}
+    <div class="cc-thumb-fall" ${c.posterUrl?'style="display:none"':''}>📚</div>
+    <div class="cc-body">
+      <div class="cc-cat">${c.category||''}</div>
+      <div class="cc-title">${c.title||'Course'}</div>
+      <div class="cc-tags">
+        <span class="tag tag-${c.isFree?'free':'paid'}">${c.isFree?'Free':'Paid'}</span>
+        <span class="tag tag-${c.type}">${c.type==='video'?'🎥':'📄'}</span>
+      </div>
+    </div>
+    <button class="cc-btn">Dekhein</button>
+  </div>`;
+}
+
+window.openCourse = (id) => {
+  const c = allCourses.find(([i])=>i===id)?.[1];
+  if(!c) return;
+  let html = `<button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">${c.title}</div>
+    <div class="modal-meta">${c.category||''} ${c.subcategory?'→ '+c.subcategory:''} &nbsp;•&nbsp; ${c.isFree?'🆓 Free':'💰 Paid'}</div>`;
+  if(c.type==='video'&&c.youtubeLink){
+    const vid = c.youtubeLink.includes('v=') ? c.youtubeLink.split('v=')[1].split('&')[0] : c.youtubeLink.split('/').pop().split('?')[0];
+    html += `<iframe class="yt-frame" src="https://www.youtube.com/embed/${vid}" allowfullscreen></iframe>`;
+  } else if(c.pdfUrl){
+    html += `<a class="pdf-open" href="${c.pdfUrl}" target="_blank">📄 PDF / Notes kholen</a>`;
+  }
+  if(c.description) html += `<div class="modal-desc">${c.description}</div>`;
+  document.getElementById('c-modal-body').innerHTML = html;
+  document.getElementById('c-modal').classList.add('open');
+};
+window.closeModal = () => document.getElementById('c-modal').classList.remove('open');
+
+loadSlider();
+loadCourses();
+</script>
+</body>
+</html>

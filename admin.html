@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SK Education – Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--pri:#1a237e;--acc:#ff6f00;--gold:#ffd600;--bg:#f0f2ff;--card:#fff;--muted:#757575;--sbar:#0d1654;--danger:#c62828;--success:#2e7d32}
+body{font-family:'Poppins',sans-serif;background:var(--bg);min-height:100vh;display:flex}
+
+/* SIDEBAR */
+.sidebar{width:220px;background:var(--sbar);color:#fff;position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;z-index:200;transition:transform .3s}
+.sb-logo{padding:18px 16px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px}
+.sb-logo-ring{width:38px;height:38px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;border:2px solid var(--gold);flex-shrink:0;overflow:hidden}
+.sb-logo-ring img{width:30px;height:30px;object-fit:contain}
+.sb-logo-ring .lf{font-family:'Baloo 2',cursive;font-size:16px;font-weight:800;color:var(--pri)}
+.sb-brand{font-family:'Baloo 2',cursive;font-size:15px;font-weight:800;line-height:1}
+.sb-brand small{display:block;font-family:'Poppins',sans-serif;font-size:9px;opacity:.5;font-weight:400;letter-spacing:.5px}
+.sb-nav{flex:1;overflow-y:auto;padding:8px 0}
+.sb-section{font-size:9px;text-transform:uppercase;letter-spacing:2px;opacity:.35;padding:12px 16px 4px}
+.sb-link{display:flex;align-items:center;gap:10px;padding:10px 16px;color:rgba(255,255,255,.7);font-size:13px;font-weight:500;cursor:pointer;border:none;background:transparent;width:100%;font-family:'Poppins',sans-serif;border-left:3px solid transparent;transition:all .15s}
+.sb-link:hover,.sb-link.active{color:#fff;background:rgba(255,255,255,.08);border-left-color:var(--gold)}
+.sb-link .si{font-size:16px;width:22px;text-align:center}
+
+/* MAIN */
+.main{margin-left:220px;flex:1;min-height:100vh;display:flex;flex-direction:column}
+.topbar{background:#fff;padding:0 22px;height:58px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.07);position:sticky;top:0;z-index:100}
+.topbar-title{font-size:17px;font-weight:600;color:var(--pri)}
+.admin-chip{background:var(--pri);color:#fff;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px}
+.page-wrap{padding:20px;display:none;flex:1}
+.page-wrap.active{display:block}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:22px}
+.stat{background:var(--card);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(26,35,126,.08);border-left:4px solid var(--pri)}
+.stat-val{font-family:'Baloo 2',cursive;font-size:34px;font-weight:800;color:var(--pri);line-height:1}
+.stat-label{font-size:12px;color:var(--muted);margin-top:2px}
+
+/* CARDS */
+.form-card{background:var(--card);border-radius:16px;padding:22px;box-shadow:0 2px 10px rgba(26,35,126,.08);max-width:680px}
+.fc-title{font-size:16px;font-weight:600;color:var(--pri);margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid #e8eaf6}
+.form-group{margin-bottom:14px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label{display:block;font-size:11px;font-weight:600;color:#424242;margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
+input,select,textarea{width:100%;padding:10px 13px;border:2px solid #e0e0e0;border-radius:9px;font-family:'Poppins',sans-serif;font-size:13px;color:#212121;background:#fafafa;outline:none;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--pri);background:#fff}
+textarea{resize:vertical;min-height:70px}
+.radio-row{display:flex;gap:16px}
+.radio-opt{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer}
+
+/* BUTTONS */
+.btn{padding:10px 20px;border:none;border-radius:9px;font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s}
+.btn-pri{background:var(--pri);color:#fff}
+.btn-pri:hover{background:#283593}
+.btn-acc{background:var(--acc);color:#fff}
+.btn-danger{background:var(--danger);color:#fff;padding:6px 12px;font-size:11px;border-radius:6px}
+.btn-sm{padding:6px 12px;font-size:11px;border-radius:6px}
+
+/* TABLE */
+.t-wrap{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(26,35,126,.08)}
+table{width:100%;border-collapse:collapse}
+th{background:var(--pri);color:#fff;padding:11px 14px;text-align:left;font-size:12px;font-weight:600}
+td{padding:10px 14px;border-bottom:1px solid #f5f5f5;font-size:12px;color:#333;vertical-align:middle}
+tr:hover td{background:#f8f9ff}
+.chip{display:inline-block;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:700}
+.chip-free{background:#e8f5e9;color:var(--success)}
+.chip-paid{background:#fff3e0;color:#e65100}
+.chip-video{background:#e3f2fd;color:#1565c0}
+.chip-pdf{background:#fce4ec;color:#c62828}
+
+/* MSG */
+.msg{padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:14px;display:none}
+.msg.ok{background:#e8f5e9;color:var(--success);border-left:3px solid var(--success);display:block}
+.msg.err{background:#ffebee;color:var(--danger);border-left:3px solid var(--danger);display:block}
+
+/* SLIDER GRID */
+.slider-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.slider-item{position:relative;border-radius:10px;overflow:hidden}
+.slider-item img{width:150px;height:80px;object-fit:cover;display:block}
+.slider-del{position:absolute;top:4px;right:4px;background:rgba(198,40,40,.9);color:#fff;border:none;border-radius:50%;width:22px;height:22px;font-size:12px;cursor:pointer;line-height:22px;text-align:center;padding:0}
+
+/* LOADING */
+.spin{display:inline-block;width:24px;height:24px;border:3px solid #e0e0e0;border-top-color:var(--pri);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* LOGIN OVERLAY */
+.login-overlay{position:fixed;inset:0;background:var(--sbar);display:flex;align-items:center;justify-content:center;z-index:999}
+.login-box{background:#fff;border-radius:20px;padding:36px 30px;max-width:340px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.4)}
+.login-box .lb-title{font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:var(--pri);margin-bottom:6px}
+.login-box .lb-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+
+@media(max-width:700px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .form-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ADMIN LOGIN OVERLAY -->
+<div class="login-overlay" id="login-overlay">
+  <div class="login-box">
+    <div class="lb-title">🔐 Admin Login</div>
+    <div class="lb-sub">SK Education Admin Panel</div>
+    <div class="msg" id="lo-msg"></div>
+    <div style="margin-bottom:14px">
+      <input type="password" id="admin-pass" placeholder="Admin password dalein" style="margin-bottom:0" onkeydown="if(event.key==='Enter')checkAdminPass()">
+    </div>
+    <button class="btn btn-pri" style="width:100%;padding:12px" onclick="checkAdminPass()">Enter Admin Panel</button>
+    <div style="margin-top:14px;font-size:12px;color:var(--muted)"><a href="index.html" style="color:var(--pri);text-decoration:none">← Student login</a></div>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-ring">
+      <img src="sk.png" alt="SK" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="lf" style="display:none">SK</div>
+    </div>
+    <div class="sb-brand">SK Education<small>Admin Panel</small></div>
+  </div>
+  <div class="sb-nav">
+    <div class="sb-section">Main</div>
+    <button class="sb-link active" onclick="showPage('dashboard',this)"><span class="si">📊</span>Dashboard</button>
+    <button class="sb-link" onclick="showPage('users',this)"><span class="si">👥</span>All Users</button>
+    <div class="sb-section">Content</div>
+    <button class="sb-link" onclick="showPage('add-course',this)"><span class="si">➕</span>Add Course</button>
+    <button class="sb-link" onclick="showPage('all-courses',this)"><span class="si">📚</span>All Courses</button>
+    <button class="sb-link" onclick="showPage('slider',this)"><span class="si">🖼️</span>Slider Images</button>
+    <div class="sb-section">Account</div>
+    <button class="sb-link" onclick="adminLogout()" style="color:rgba(255,100,100,.8)"><span class="si">🚪</span>Logout</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title" id="tb-title">📊 Dashboard</div>
+    <span class="admin-chip">Admin</span>
+  </div>
+
+  <!-- DASHBOARD PAGE -->
+  <div class="page-wrap active" id="page-dashboard">
+    <div class="stats">
+      <div class="stat"><div class="stat-val" id="st-users">-</div><div class="stat-label">👥 Total Users</div></div>
+      <div class="stat" style="border-color:var(--acc)"><div class="stat-val" id="st-courses" style="color:var(--acc)">-</div><div class="stat-label">📚 Total Courses</div></div>
+      <div class="stat" style="border-color:#2e7d32"><div class="stat-val" id="st-free" style="color:#2e7d32">-</div><div class="stat-label">🆓 Free</div></div>
+      <div class="stat" style="border-color:#c62828"><div class="stat-val" id="st-paid" style="color:#c62828">-</div><div class="stat-label">💰 Paid</div></div>
+    </div>
+    <div class="t-wrap">
+      <table>
+        <thead><tr><th>Name</th><th>Email</th><th>Mobile</th><th>Registered</th></tr></thead>
+        <tbody id="dash-users"><tr><td colspan="4" style="text-align:center;padding:20px;color:#aaa"><div class="spin"></div></td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ADD COURSE PAGE -->
+  <div class="page-wrap" id="page-add-course">
+    <div class="form-card">
+      <div class="fc-title">➕ New Course / Content Upload</div>
+      <div class="msg" id="add-msg"></div>
+      <div class="form-group">
+        <label>Course Title *</label>
+        <input type="text" id="c-title" placeholder="e.g. Class 10 Math Chapter 1 – Real Numbers">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category *</label>
+          <select id="c-cat">
+            <option value="">— Category chunein —</option>
+            <option>Hindi</option>
+            <option>Sanskrit</option>
+            <option>Math</option>
+            <option>Science</option>
+            <option>History</option>
+            <option>Social Science</option>
+            <option>English</option>
+            <option>Urdu</option>
+            <option>NCERT</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Subcategory *</label>
+          <select id="c-sub">
+            <option value="">— Subcategory chunein —</option>
+            <option>Subjective</option>
+            <option>Objective</option>
+            <option>Notes</option>
+            <option>Full Course</option>
+            <option>Practice Set</option>
+            <option>Solution</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Content Type *</label>
+          <div class="radio-row">
+            <label class="radio-opt"><input type="radio" name="ctype" value="video" checked onchange="toggleType()"> 🎥 Video</label>
+            <label class="radio-opt"><input type="radio" name="ctype" value="pdf" onchange="toggleType()"> 📄 PDF/Notes</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Access</label>
+          <div class="radio-row">
+            <label class="radio-opt"><input type="radio" name="cfree" value="true" checked> 🆓 Free</label>
+            <label class="radio-opt"><input type="radio" name="cfree" value="false"> 💰 Paid</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group" id="yt-field">
+        <label>YouTube Link *</label>
+        <input type="text" id="c-yt" placeholder="https://www.youtube.com/watch?v=...">
+      </div>
+      <div class="form-group" id="pdf-field" style="display:none">
+        <label>PDF / Notes Link *</label>
+        <input type="text" id="c-pdf" placeholder="https://drive.google.com/... ya koi bhi PDF link">
+      </div>
+      <div class="form-group">
+        <label>Course Poster Image URL</label>
+        <input type="url" id="c-poster" placeholder="https://i.imgur.com/... (Imgur ya ImgBB pe upload karein)">
+        <div style="font-size:11px;color:var(--muted);margin-top:4px">Imgur.com ya imgbb.com pe upload karein, phir link paste karein</div>
+      </div>
+      <div class="form-group">
+        <label>Description (optional)</label>
+        <textarea id="c-desc" placeholder="Course ke baare mein likhein..."></textarea>
+      </div>
+      <button class="btn btn-pri" onclick="addCourse()">📤 Course Upload karo</button>
+    </div>
+  </div>
+
+  <!-- ALL COURSES PAGE -->
+  <div class="page-wrap" id="page-all-courses">
+    <div class="t-wrap">
+      <table>
+        <thead><tr><th>Title</th><th>Category</th><th>Type</th><th>Access</th><th>Delete</th></tr></thead>
+        <tbody id="courses-table"><tr><td colspan="5" style="text-align:center;padding:20px"><div class="spin"></div></td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- USERS PAGE -->
+  <div class="page-wrap" id="page-users">
+    <div class="t-wrap">
+      <table>
+        <thead><tr><th>Name</th><th>Email</th><th>Mobile</th><th>Class</th><th>Registered</th></tr></thead>
+        <tbody id="users-table"><tr><td colspan="5" style="text-align:center;padding:20px"><div class="spin"></div></td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SLIDER PAGE -->
+  <div class="page-wrap" id="page-slider">
+    <div class="form-card" style="max-width:460px;margin-bottom:20px">
+      <div class="fc-title">🖼️ Slider Image Add Karo</div>
+      <div class="msg" id="sl-msg"></div>
+      <div class="form-group">
+        <label>Image URL</label>
+        <input type="url" id="sl-url" placeholder="https://i.imgur.com/...">
+        <div style="font-size:11px;color:var(--muted);margin-top:4px">sima.png jaisi koi bhi image Imgur pe upload karke link dalein</div>
+      </div>
+      <button class="btn btn-pri" onclick="addSlider()">Add to Slider</button>
+    </div>
+    <div class="form-card" style="max-width:600px">
+      <div class="fc-title">Current Slider Images</div>
+      <div id="slider-list"><div class="spin"></div></div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, get, push, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const app = initializeApp({
+  apiKey:"AIzaSyAXvrUDLT9JosL5eE4SsXqiuGP8rmS9RYk",
+  authDomain:"education-bd8a9.firebaseapp.com",
+  databaseURL:"https://education-bd8a9-default-rtdb.firebaseio.com",
+  projectId:"education-bd8a9",
+  storageBucket:"education-bd8a9.firebasestorage.app",
+  messagingSenderId:"44581091231",
+  appId:"1:44581091231:android:76d10f0d2597d3b64bafaa"
+});
+const db = getDatabase(app);
+
+// ADMIN AUTH
+const ADMIN_PASS = 'SKAdmin@2026'; // Yahan apna password change karein
+const isAdmin = sessionStorage.getItem('sk_admin');
+if(isAdmin) document.getElementById('login-overlay').style.display='none';
+
+window.checkAdminPass = () => {
+  const p = document.getElementById('admin-pass').value;
+  if(p === ADMIN_PASS){
+    sessionStorage.setItem('sk_admin','1');
+    document.getElementById('login-overlay').style.display='none';
+    loadDashboard();
+  } else {
+    const m=document.getElementById('lo-msg');
+    m.className='msg err';m.textContent='Galat password!';
+  }
+};
+
+window.adminLogout = () => {
+  sessionStorage.removeItem('sk_admin');
+  window.location.reload();
+};
+
+// PAGE SWITCHING
+const titles = {'dashboard':'📊 Dashboard','add-course':'➕ Course Add Karo','all-courses':'📚 All Courses','users':'👥 All Users','slider':'🖼️ Slider Images'};
+window.showPage = (p, btn) => {
+  document.querySelectorAll('.page-wrap').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.sb-link').forEach(el=>el.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  btn.classList.add('active');
+  document.getElementById('tb-title').textContent = titles[p]||p;
+  if(p==='all-courses') loadAllCourses();
+  if(p==='users') loadAllUsers();
+  if(p==='slider') loadSliderList();
+};
+
+window.toggleType = () => {
+  const t=document.querySelector('input[name="ctype"]:checked').value;
+  document.getElementById('yt-field').style.display=t==='video'?'block':'none';
+  document.getElementById('pdf-field').style.display=t==='pdf'?'block':'none';
+};
+
+function showMsg(id,txt,type){
+  const el=document.getElementById(id);
+  el.className='msg '+type; el.textContent=txt;
+  setTimeout(()=>{el.style.display='none';el.className='msg';},4000);
+}
+
+// DASHBOARD
+async function loadDashboard(){
+  try{
+    const [us,cs]=await Promise.all([get(ref(db,'users')),get(ref(db,'courses'))]);
+    const users=us.exists()?Object.values(us.val()):[];
+    const courses=cs.exists()?Object.values(cs.val()):[];
+    document.getElementById('st-users').textContent=users.length;
+    document.getElementById('st-courses').textContent=courses.length;
+    document.getElementById('st-free').textContent=courses.filter(c=>c.isFree).length;
+    document.getElementById('st-paid').textContent=courses.filter(c=>!c.isFree).length;
+    const tbody=document.getElementById('dash-users');
+    if(!users.length){tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:#aaa">Koi user abhi tak nahi</td></tr>';return;}
+    tbody.innerHTML=users.slice(-10).reverse().map(u=>`<tr><td>${u.name||'-'}</td><td>${u.email||'-'}</td><td>${u.phone||'-'}</td><td>${u.registeredAt?new Date(u.registeredAt).toLocaleDateString('en-IN'):'-'}</td></tr>`).join('');
+  }catch(e){}
+}
+
+window.addCourse = async () => {
+  const title=document.getElementById('c-title').value.trim();
+  const cat=document.getElementById('c-cat').value;
+  const sub=document.getElementById('c-sub').value;
+  const type=document.querySelector('input[name="ctype"]:checked').value;
+  const isFree=document.querySelector('input[name="cfree"]:checked').value==='true';
+  const yt=document.getElementById('c-yt').value.trim();
+  const pdf=document.getElementById('c-pdf').value.trim();
+  const poster=document.getElementById('c-poster').value.trim();
+  const desc=document.getElementById('c-desc').value.trim();
+  if(!title||!cat||!sub){showMsg('add-msg','Title, Category, Subcategory zaroori hain','err');return;}
+  if(type==='video'&&!yt){showMsg('add-msg','YouTube link daalein','err');return;}
+  if(type==='pdf'&&!pdf){showMsg('add-msg','PDF link daalein','err');return;}
+  const btn=document.querySelector('#page-add-course .btn-pri');
+  btn.textContent='Uploading...';btn.disabled=true;
+  try{
+    await push(ref(db,'courses'),{title,category:cat,subcategory:sub,type,isFree,youtubeLink:yt,pdfUrl:pdf,posterUrl:poster,description:desc,createdAt:new Date().toISOString()});
+    showMsg('add-msg','✅ Course successfully upload ho gaya!','ok');
+    ['c-title','c-yt','c-pdf','c-poster','c-desc'].forEach(id=>{document.getElementById(id).value='';});
+    document.getElementById('c-cat').value='';
+    document.getElementById('c-sub').value='';
+  }catch(e){showMsg('add-msg','Error: '+e.message,'err');}
+  btn.textContent='📤 Course Upload karo';btn.disabled=false;
+};
+
+async function loadAllCourses(){
+  const snap=await get(ref(db,'courses'));
+  const tbody=document.getElementById('courses-table');
+  if(!snap.exists()){tbody.innerHTML='<tr><td colspan="5" style="text-align:center;color:#aaa">Koi course nahi</td></tr>';return;}
+  const entries=Object.entries(snap.val()).reverse();
+  tbody.innerHTML=entries.map(([id,c])=>`<tr>
+    <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${c.title||''}">${c.title||'-'}</td>
+    <td>${c.category||'-'}</td>
+    <td><span class="chip chip-${c.type}">${c.type==='video'?'🎥 Video':'📄 PDF'}</span></td>
+    <td><span class="chip chip-${c.isFree?'free':'paid'}">${c.isFree?'Free':'Paid'}</span></td>
+    <td><button class="btn-danger" onclick="delCourse('${id}')">🗑</button></td>
+  </tr>`).join('');
+}
+
+window.delCourse = async (id) => {
+  if(!confirm('Yeh course delete karna chahte hain?')) return;
+  await remove(ref(db,'courses/'+id));
+  loadAllCourses();
+};
+
+async function loadAllUsers(){
+  const snap=await get(ref(db,'users'));
+  const tbody=document.getElementById('users-table');
+  if(!snap.exists()){tbody.innerHTML='<tr><td colspan="5" style="text-align:center;color:#aaa">Koi user nahi</td></tr>';return;}
+  const users=Object.values(snap.val()).reverse();
+  tbody.innerHTML=users.map(u=>`<tr><td>${u.name||'-'}</td><td>${u.email||'-'}</td><td>${u.phone||'-'}</td><td>${u.class||'10th'}</td><td>${u.registeredAt?new Date(u.registeredAt).toLocaleDateString('en-IN'):'-'}</td></tr>`).join('');
+}
+
+window.addSlider = async () => {
+  const url=document.getElementById('sl-url').value.trim();
+  if(!url){showMsg('sl-msg','Image URL daalein','err');return;}
+  await push(ref(db,'slider'),{url});
+  showMsg('sl-msg','✅ Slider image add ho gayi!','ok');
+  document.getElementById('sl-url').value='';
+  loadSliderList();
+};
+
+async function loadSliderList(){
+  const snap=await get(ref(db,'slider'));
+  const el=document.getElementById('slider-list');
+  if(!snap.exists()){el.innerHTML='<div style="color:#aaa;font-size:13px">Abhi koi image nahi</div>';return;}
+  const entries=Object.entries(snap.val());
+  el.innerHTML='<div class="slider-grid">'+entries.map(([id,s])=>`<div class="slider-item"><img src="${s.url||s}" alt="slide" onerror="this.parentElement.innerHTML='❌'"><button class="slider-del" onclick="delSlider('${id}')">✕</button></div>`).join('')+'</div>';
+}
+
+window.delSlider = async (id) => {
+  if(!confirm('Delete?')) return;
+  await remove(ref(db,'slider/'+id));
+  loadSliderList();
+};
+
+if(isAdmin) loadDashboard();
+</script>
+</body>
+</html>
