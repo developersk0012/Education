@@ -1,434 +1,492 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SK Education – Admin Panel</title>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--pri:#1a237e;--acc:#ff6f00;--gold:#ffd600;--bg:#f0f2ff;--card:#fff;--muted:#757575;--sbar:#0d1654;--danger:#c62828;--success:#2e7d32}
-body{font-family:'Poppins',sans-serif;background:var(--bg);min-height:100vh;display:flex}
-
-/* SIDEBAR */
-.sidebar{width:220px;background:var(--sbar);color:#fff;position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;z-index:200;transition:transform .3s}
-.sb-logo{padding:18px 16px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px}
-.sb-logo-ring{width:38px;height:38px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;border:2px solid var(--gold);flex-shrink:0;overflow:hidden}
-.sb-logo-ring img{width:30px;height:30px;object-fit:contain}
-.sb-logo-ring .lf{font-family:'Baloo 2',cursive;font-size:16px;font-weight:800;color:var(--pri)}
-.sb-brand{font-family:'Baloo 2',cursive;font-size:15px;font-weight:800;line-height:1}
-.sb-brand small{display:block;font-family:'Poppins',sans-serif;font-size:9px;opacity:.5;font-weight:400;letter-spacing:.5px}
-.sb-nav{flex:1;overflow-y:auto;padding:8px 0}
-.sb-section{font-size:9px;text-transform:uppercase;letter-spacing:2px;opacity:.35;padding:12px 16px 4px}
-.sb-link{display:flex;align-items:center;gap:10px;padding:10px 16px;color:rgba(255,255,255,.7);font-size:13px;font-weight:500;cursor:pointer;border:none;background:transparent;width:100%;font-family:'Poppins',sans-serif;border-left:3px solid transparent;transition:all .15s}
-.sb-link:hover,.sb-link.active{color:#fff;background:rgba(255,255,255,.08);border-left-color:var(--gold)}
-.sb-link .si{font-size:16px;width:22px;text-align:center}
-
-/* MAIN */
-.main{margin-left:220px;flex:1;min-height:100vh;display:flex;flex-direction:column}
-.topbar{background:#fff;padding:0 22px;height:58px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.07);position:sticky;top:0;z-index:100}
-.topbar-title{font-size:17px;font-weight:600;color:var(--pri)}
-.admin-chip{background:var(--pri);color:#fff;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px}
-.page-wrap{padding:20px;display:none;flex:1}
-.page-wrap.active{display:block}
-
-/* STATS */
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:22px}
-.stat{background:var(--card);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(26,35,126,.08);border-left:4px solid var(--pri)}
-.stat-val{font-family:'Baloo 2',cursive;font-size:34px;font-weight:800;color:var(--pri);line-height:1}
-.stat-label{font-size:12px;color:var(--muted);margin-top:2px}
-
-/* CARDS */
-.form-card{background:var(--card);border-radius:16px;padding:22px;box-shadow:0 2px 10px rgba(26,35,126,.08);max-width:680px}
-.fc-title{font-size:16px;font-weight:600;color:var(--pri);margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid #e8eaf6}
-.form-group{margin-bottom:14px}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-label{display:block;font-size:11px;font-weight:600;color:#424242;margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
-input,select,textarea{width:100%;padding:10px 13px;border:2px solid #e0e0e0;border-radius:9px;font-family:'Poppins',sans-serif;font-size:13px;color:#212121;background:#fafafa;outline:none;transition:border-color .2s}
-input:focus,select:focus,textarea:focus{border-color:var(--pri);background:#fff}
-textarea{resize:vertical;min-height:70px}
-.radio-row{display:flex;gap:16px}
-.radio-opt{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer}
-
-/* BUTTONS */
-.btn{padding:10px 20px;border:none;border-radius:9px;font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s}
-.btn-pri{background:var(--pri);color:#fff}
-.btn-pri:hover{background:#283593}
-.btn-acc{background:var(--acc);color:#fff}
-.btn-danger{background:var(--danger);color:#fff;padding:6px 12px;font-size:11px;border-radius:6px}
-.btn-sm{padding:6px 12px;font-size:11px;border-radius:6px}
-
-/* TABLE */
-.t-wrap{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(26,35,126,.08)}
-table{width:100%;border-collapse:collapse}
-th{background:var(--pri);color:#fff;padding:11px 14px;text-align:left;font-size:12px;font-weight:600}
-td{padding:10px 14px;border-bottom:1px solid #f5f5f5;font-size:12px;color:#333;vertical-align:middle}
-tr:hover td{background:#f8f9ff}
-.chip{display:inline-block;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:700}
-.chip-free{background:#e8f5e9;color:var(--success)}
-.chip-paid{background:#fff3e0;color:#e65100}
-.chip-video{background:#e3f2fd;color:#1565c0}
-.chip-pdf{background:#fce4ec;color:#c62828}
-
-/* MSG */
-.msg{padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:14px;display:none}
-.msg.ok{background:#e8f5e9;color:var(--success);border-left:3px solid var(--success);display:block}
-.msg.err{background:#ffebee;color:var(--danger);border-left:3px solid var(--danger);display:block}
-
-/* SLIDER GRID */
-.slider-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
-.slider-item{position:relative;border-radius:10px;overflow:hidden}
-.slider-item img{width:150px;height:80px;object-fit:cover;display:block}
-.slider-del{position:absolute;top:4px;right:4px;background:rgba(198,40,40,.9);color:#fff;border:none;border-radius:50%;width:22px;height:22px;font-size:12px;cursor:pointer;line-height:22px;text-align:center;padding:0}
-
-/* LOADING */
-.spin{display:inline-block;width:24px;height:24px;border:3px solid #e0e0e0;border-top-color:var(--pri);border-radius:50%;animation:spin .7s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* LOGIN OVERLAY */
-.login-overlay{position:fixed;inset:0;background:var(--sbar);display:flex;align-items:center;justify-content:center;z-index:999}
-.login-box{background:#fff;border-radius:20px;padding:36px 30px;max-width:340px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.4)}
-.login-box .lb-title{font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:var(--pri);margin-bottom:6px}
-.login-box .lb-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
-
-@media(max-width:700px){
-  .sidebar{transform:translateX(-100%)}
-  .sidebar.open{transform:translateX(0)}
-  .main{margin-left:0}
-  .form-row{grid-template-columns:1fr}
-}
+body{background:#f0f2ff;padding-bottom:0}
+.admin-header{background:linear-gradient(135deg,#0d1654,#1a237e,#3949ab);color:#fff;padding:16px;display:flex;align-items:center;gap:12px;box-shadow:0 3px 18px rgba(13,22,84,.4);position:sticky;top:0;z-index:300}
+.admin-header h1{font-family:'Baloo 2',cursive;font-size:20px;font-weight:800;margin:0}
+.admin-header p{font-size:11px;opacity:.7;margin:0}
+.admin-logo{width:44px;height:44px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-family:'Baloo 2',cursive;font-size:18px;font-weight:800;color:#1a237e;overflow:hidden;flex-shrink:0}
+.admin-logo img{width:36px;height:36px;object-fit:contain;border-radius:50%}
+.admin-nav{display:flex;background:#fff;border-bottom:2px solid #e0e0e0;overflow-x:auto;padding:0 8px;gap:0}
+.admin-nav::-webkit-scrollbar{display:none}
+.anav{padding:13px 16px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s;border:none;background:none;font-family:'Poppins',sans-serif}
+.anav.active{color:var(--pri);border-bottom:3px solid var(--pri)}
+.admin-body{max-width:900px;margin:0 auto;padding:18px 14px}
+.stat-row{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px}
+@media(min-width:600px){.stat-row{grid-template-columns:repeat(4,1fr)}}
+.stat-card{background:#fff;border-radius:14px;padding:16px 14px;box-shadow:var(--shadow);text-align:center}
+.stat-num{font-size:28px;font-weight:800;color:var(--pri);font-family:'Baloo 2',cursive}
+.stat-lbl{font-size:11px;color:var(--muted);margin-top:2px}
+.section-panel{display:none}
+.section-panel.active{display:block}
+.admin-card{background:#fff;border-radius:16px;padding:20px;box-shadow:var(--shadow);margin-bottom:18px}
+.admin-card-title{font-size:15px;font-weight:700;color:var(--pri);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:500px){.form-row{grid-template-columns:1fr}}
+select{width:100%;padding:11px 14px;border:2px solid var(--border);border-radius:10px;font-size:14px;font-family:'Poppins',sans-serif;outline:none;background:#fff;color:var(--text);transition:border-color .2s}
+select:focus{border-color:var(--pri)}
+.tree-wrap{background:#f8f9ff;border-radius:14px;padding:16px;margin-bottom:16px}
+.tree-cat{font-size:14px;font-weight:700;color:var(--pri);cursor:pointer;display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #e0e0e0;margin-bottom:0}
+.tree-cat:last-of-type{border-bottom:none}
+.tree-arrow{transition:transform .2s;display:inline-block}
+.tree-sub{padding-left:20px;display:none}
+.tree-sub.open{display:block}
+.tree-subcat{font-size:13px;font-weight:600;color:var(--acc);cursor:pointer;display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px dashed #e8eaf6}
+.tree-subcat:last-child{border-bottom:none}
+.tree-items{padding-left:18px;display:none}
+.tree-items.open{display:block}
+.content-item{background:#fff;border-radius:10px;padding:12px 14px;margin:6px 0;display:flex;align-items:flex-start;gap:10px;box-shadow:0 1px 6px rgba(0,0,0,.07)}
+.ci-ico{font-size:22px;flex-shrink:0}
+.ci-info{flex:1;min-width:0}
+.ci-title{font-size:13px;font-weight:700;color:var(--text);word-break:break-word}
+.ci-meta{font-size:11px;color:var(--muted);margin-top:3px}
+.ci-del{background:#ffebee;color:#c62828;border:none;border-radius:8px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;flex-shrink:0}
+.add-content-panel{background:#e8eaf6;border-radius:12px;padding:14px;margin-top:12px;display:none}
+.add-content-panel.open{display:block}
+.add-type-row{display:flex;gap:8px;margin-bottom:12px}
+.at-btn{flex:1;padding:10px;border-radius:10px;border:2px solid var(--border);background:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;color:var(--muted);transition:all .15s}
+.at-btn.active{border-color:var(--pri);background:var(--pri);color:#fff}
+.users-table{width:100%;border-collapse:collapse;font-size:13px}
+.users-table th{background:#e8eaf6;padding:10px 12px;font-weight:700;color:var(--pri);text-align:left}
+.users-table td{padding:10px 12px;border-bottom:1px solid #f0f0f0;color:var(--text);word-break:break-all}
+.users-table tr:hover td{background:#f8f9ff}
+.slider-item{display:flex;align-items:center;gap:10px;background:#f8f9ff;border-radius:10px;padding:10px 12px;margin-bottom:8px}
+.slider-thumb{width:60px;height:40px;object-fit:cover;border-radius:6px}
+.slider-url{font-size:12px;color:var(--muted);flex:1;word-break:break-all}
+.del-sl{background:#ffebee;color:#c62828;border:none;border-radius:7px;padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;flex-shrink:0}
+/* ---- Password Screen ---- */
+#pw-screen{position:fixed;inset:0;background:linear-gradient(135deg,#0d1654,#1a237e);display:flex;align-items:center;justify-content:center;z-index:1000;padding:24px}
+#pw-card{background:#fff;border-radius:22px;padding:32px 24px;width:100%;max-width:360px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+#pw-card .lock{font-size:52px;margin-bottom:12px}
+#pw-card h2{font-family:'Baloo 2',cursive;font-size:22px;color:var(--pri);margin-bottom:4px}
+#pw-card p{font-size:13px;color:var(--muted);margin-bottom:20px}
+#pw-err{color:var(--danger);font-size:13px;font-weight:600;min-height:20px;margin-bottom:8px}
 </style>
 </head>
 <body>
 
-<!-- ADMIN LOGIN OVERLAY -->
-<div class="login-overlay" id="login-overlay">
-  <div class="login-box">
-    <div class="lb-title">🔐 Admin Login</div>
-    <div class="lb-sub">SK Education Admin Panel</div>
-    <div class="msg" id="lo-msg"></div>
-    <div style="margin-bottom:14px">
-      <input type="password" id="admin-pass" placeholder="Admin password dalein" style="margin-bottom:0" onkeydown="if(event.key==='Enter')checkAdminPass()">
+<!-- Password Screen -->
+<div id="pw-screen">
+  <div id="pw-card">
+    <div class="lock">🔐</div>
+    <h2>Admin Panel</h2>
+    <p>SK Education – Admin Access Only</p>
+    <div id="pw-err"></div>
+    <div class="form-group">
+      <div class="input-wrap has-icon">
+        <span class="input-icon">🔑</span>
+        <input type="password" id="pw-input" placeholder="Admin password bharein" onkeydown="if(event.key==='Enter')checkPw()">
+      </div>
     </div>
-    <button class="btn btn-pri" style="width:100%;padding:12px" onclick="checkAdminPass()">Enter Admin Panel</button>
-    <div style="margin-top:14px;font-size:12px;color:var(--muted)"><a href="index.html" style="color:var(--pri);text-decoration:none">← Student login</a></div>
+    <button class="btn btn-primary btn-block" onclick="checkPw()">Access karein</button>
   </div>
 </div>
 
-<!-- SIDEBAR -->
-<div class="sidebar" id="sidebar">
-  <div class="sb-logo">
-    <div class="sb-logo-ring">
-      <img src="sk.png" alt="SK" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-      <div class="lf" style="display:none">SK</div>
+<!-- Admin Panel (hidden until password ok) -->
+<div id="admin-wrap" style="display:none">
+  <div class="admin-header">
+    <div class="admin-logo">
+      <img src="sk.png" alt="SK" onerror="this.style.display='none';this.parentElement.textContent='SK'">
     </div>
-    <div class="sb-brand">SK Education<small>Admin Panel</small></div>
+    <div>
+      <h1>SK Education Admin</h1>
+      <p>Swami Vivekanand Study Point</p>
+    </div>
+    <button onclick="location.href='dashboard.html'" style="margin-left:auto;background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif">🏠 Site</button>
   </div>
-  <div class="sb-nav">
-    <div class="sb-section">Main</div>
-    <button class="sb-link active" onclick="showPage('dashboard',this)"><span class="si">📊</span>Dashboard</button>
-    <button class="sb-link" onclick="showPage('users',this)"><span class="si">👥</span>All Users</button>
-    <div class="sb-section">Content</div>
-    <button class="sb-link" onclick="showPage('add-course',this)"><span class="si">➕</span>Add Course</button>
-    <button class="sb-link" onclick="showPage('all-courses',this)"><span class="si">📚</span>All Courses</button>
-    <button class="sb-link" onclick="showPage('slider',this)"><span class="si">🖼️</span>Slider Images</button>
-    <div class="sb-section">Account</div>
-    <button class="sb-link" onclick="adminLogout()" style="color:rgba(255,100,100,.8)"><span class="si">🚪</span>Logout</button>
+  <nav class="admin-nav">
+    <button class="anav active" onclick="showTab('dashboard',this)">📊 Dashboard</button>
+    <button class="anav" onclick="showTab('courses',this)">📚 Courses</button>
+    <button class="anav" onclick="showTab('users',this)">👥 Users</button>
+    <button class="anav" onclick="showTab('slider',this)">🖼️ Slider</button>
+  </nav>
+  <div class="admin-body">
+
+    <!-- DASHBOARD TAB -->
+    <div class="section-panel active" id="tab-dashboard">
+      <div class="stat-row">
+        <div class="stat-card"><div class="stat-num" id="st-users">0</div><div class="stat-lbl">👥 Total Users</div></div>
+        <div class="stat-card"><div class="stat-num" id="st-courses">0</div><div class="stat-lbl">📚 Total Courses</div></div>
+        <div class="stat-card"><div class="stat-num" id="st-free">0</div><div class="stat-lbl">🆓 Free Content</div></div>
+        <div class="stat-card"><div class="stat-num" id="st-paid">0</div><div class="stat-lbl">💰 Paid Content</div></div>
+      </div>
+      <div class="admin-card">
+        <div class="admin-card-title">⚡ Quick Actions</div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <button class="btn btn-primary" onclick="showTab('courses',document.querySelectorAll('.anav')[1])">+ Naya Course/Content</button>
+          <button class="btn btn-accent" onclick="showTab('slider',document.querySelectorAll('.anav')[3])">+ Slider Image</button>
+          <button class="btn" style="background:#e8eaf6;color:var(--pri);border:none" onclick="loadStats()">🔄 Refresh</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- COURSES TAB -->
+    <div class="section-panel" id="tab-courses">
+      <div class="admin-card">
+        <div class="admin-card-title">📚 Course Manager</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Category expand karein → subcategory → Video/PDF add karein</p>
+        <div class="tree-wrap" id="course-tree">
+          <div class="loading-center"><div class="big-spinner"></div> Loading...</div>
+        </div>
+        <button class="btn btn-primary" onclick="addCourseModal()">+ Naya Course Container</button>
+      </div>
+    </div>
+
+    <!-- USERS TAB -->
+    <div class="section-panel" id="tab-users">
+      <div class="admin-card">
+        <div class="admin-card-title">👥 Registered Users</div>
+        <div id="users-wrap"><div class="loading-center"><div class="big-spinner"></div> Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- SLIDER TAB -->
+    <div class="section-panel" id="tab-slider">
+      <div class="admin-card">
+        <div class="admin-card-title">🖼️ Slider Images</div>
+        <div class="form-group">
+          <label>New Slide Image URL</label>
+          <div class="input-wrap"><input type="url" id="sl-url" placeholder="https://...jpg ya image URL"></div>
+        </div>
+        <button class="btn btn-primary" onclick="addSlide()" style="margin-bottom:16px">Add Slide</button>
+        <div id="slides-wrap"></div>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- MAIN -->
-<div class="main">
-  <div class="topbar">
-    <div class="topbar-title" id="tb-title">📊 Dashboard</div>
-    <span class="admin-chip">Admin</span>
-  </div>
+<!-- Add Content Modal -->
+<div class="modal-overlay" id="content-modal" onclick="if(event.target===this)closeContentModal()">
+  <div class="modal-sheet" id="content-modal-body" style="max-height:90vh;overflow-y:auto"></div>
+</div>
 
-  <!-- DASHBOARD PAGE -->
-  <div class="page-wrap active" id="page-dashboard">
-    <div class="stats">
-      <div class="stat"><div class="stat-val" id="st-users">-</div><div class="stat-label">👥 Total Users</div></div>
-      <div class="stat" style="border-color:var(--acc)"><div class="stat-val" id="st-courses" style="color:var(--acc)">-</div><div class="stat-label">📚 Total Courses</div></div>
-      <div class="stat" style="border-color:#2e7d32"><div class="stat-val" id="st-free" style="color:#2e7d32">-</div><div class="stat-label">🆓 Free</div></div>
-      <div class="stat" style="border-color:#c62828"><div class="stat-val" id="st-paid" style="color:#c62828">-</div><div class="stat-label">💰 Paid</div></div>
-    </div>
-    <div class="t-wrap">
-      <table>
-        <thead><tr><th>Name</th><th>Email</th><th>Mobile</th><th>Registered</th></tr></thead>
-        <tbody id="dash-users"><tr><td colspan="4" style="text-align:center;padding:20px;color:#aaa"><div class="spin"></div></td></tr></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- ADD COURSE PAGE -->
-  <div class="page-wrap" id="page-add-course">
-    <div class="form-card">
-      <div class="fc-title">➕ New Course / Content Upload</div>
-      <div class="msg" id="add-msg"></div>
-      <div class="form-group">
-        <label>Course Title *</label>
-        <input type="text" id="c-title" placeholder="e.g. Class 10 Math Chapter 1 – Real Numbers">
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Category *</label>
-          <select id="c-cat">
-            <option value="">— Category chunein —</option>
-            <option>Hindi</option>
-            <option>Sanskrit</option>
-            <option>Math</option>
-            <option>Science</option>
-            <option>History</option>
-            <option>Social Science</option>
-            <option>English</option>
-            <option>Urdu</option>
-            <option>NCERT</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Subcategory *</label>
-          <select id="c-sub">
-            <option value="">— Subcategory chunein —</option>
-            <option>Subjective</option>
-            <option>Objective</option>
-            <option>Notes</option>
-            <option>Full Course</option>
-            <option>Practice Set</option>
-            <option>Solution</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Content Type *</label>
-          <div class="radio-row">
-            <label class="radio-opt"><input type="radio" name="ctype" value="video" checked onchange="toggleType()"> 🎥 Video</label>
-            <label class="radio-opt"><input type="radio" name="ctype" value="pdf" onchange="toggleType()"> 📄 PDF/Notes</label>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Access</label>
-          <div class="radio-row">
-            <label class="radio-opt"><input type="radio" name="cfree" value="true" checked> 🆓 Free</label>
-            <label class="radio-opt"><input type="radio" name="cfree" value="false"> 💰 Paid</label>
-          </div>
-        </div>
-      </div>
-      <div class="form-group" id="yt-field">
-        <label>YouTube Link *</label>
-        <input type="text" id="c-yt" placeholder="https://www.youtube.com/watch?v=...">
-      </div>
-      <div class="form-group" id="pdf-field" style="display:none">
-        <label>PDF / Notes Link *</label>
-        <input type="text" id="c-pdf" placeholder="https://drive.google.com/... ya koi bhi PDF link">
-      </div>
-      <div class="form-group">
-        <label>Course Poster Image URL</label>
-        <input type="url" id="c-poster" placeholder="https://i.imgur.com/... (Imgur ya ImgBB pe upload karein)">
-        <div style="font-size:11px;color:var(--muted);margin-top:4px">Imgur.com ya imgbb.com pe upload karein, phir link paste karein</div>
-      </div>
-      <div class="form-group">
-        <label>Description (optional)</label>
-        <textarea id="c-desc" placeholder="Course ke baare mein likhein..."></textarea>
-      </div>
-      <button class="btn btn-pri" onclick="addCourse()">📤 Course Upload karo</button>
-    </div>
-  </div>
-
-  <!-- ALL COURSES PAGE -->
-  <div class="page-wrap" id="page-all-courses">
-    <div class="t-wrap">
-      <table>
-        <thead><tr><th>Title</th><th>Category</th><th>Type</th><th>Access</th><th>Delete</th></tr></thead>
-        <tbody id="courses-table"><tr><td colspan="5" style="text-align:center;padding:20px"><div class="spin"></div></td></tr></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- USERS PAGE -->
-  <div class="page-wrap" id="page-users">
-    <div class="t-wrap">
-      <table>
-        <thead><tr><th>Name</th><th>Email</th><th>Mobile</th><th>Class</th><th>Registered</th></tr></thead>
-        <tbody id="users-table"><tr><td colspan="5" style="text-align:center;padding:20px"><div class="spin"></div></td></tr></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- SLIDER PAGE -->
-  <div class="page-wrap" id="page-slider">
-    <div class="form-card" style="max-width:460px;margin-bottom:20px">
-      <div class="fc-title">🖼️ Slider Image Add Karo</div>
-      <div class="msg" id="sl-msg"></div>
-      <div class="form-group">
-        <label>Image URL</label>
-        <input type="url" id="sl-url" placeholder="https://i.imgur.com/...">
-        <div style="font-size:11px;color:var(--muted);margin-top:4px">sima.png jaisi koi bhi image Imgur pe upload karke link dalein</div>
-      </div>
-      <button class="btn btn-pri" onclick="addSlider()">Add to Slider</button>
-    </div>
-    <div class="form-card" style="max-width:600px">
-      <div class="fc-title">Current Slider Images</div>
-      <div id="slider-list"><div class="spin"></div></div>
-    </div>
-  </div>
+<!-- Add Course Modal -->
+<div class="modal-overlay" id="course-modal" onclick="if(event.target===this)closeCourseModal()">
+  <div class="modal-sheet" id="course-modal-body"></div>
 </div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, get, push, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import{getDatabase,ref,get,set,push,remove,update}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+const FC={apiKey:"AIzaSyAXvrUDLT9JosL5eE4SsXqiuGP8rmS9RYk",authDomain:"education-bd8a9.firebaseapp.com",databaseURL:"https://education-bd8a9-default-rtdb.firebaseio.com",projectId:"education-bd8a9",storageBucket:"education-bd8a9.firebasestorage.app",messagingSenderId:"44581091231",appId:"1:44581091231:android:76d10f0d2597d3b64bafaa"};
+const app=initializeApp(FC),db=getDatabase(app);
+const ADMIN_PASS='SKAdmin@2026';
+const CATEGORIES=['Hindi','Sanskrit','Math','Science','History','Social Science','English','Urdu','NCERT'];
+const SUBCATEGORIES=['Objective','Subjective','Notes'];
 
-const app = initializeApp({
-  apiKey:"AIzaSyAXvrUDLT9JosL5eE4SsXqiuGP8rmS9RYk",
-  authDomain:"education-bd8a9.firebaseapp.com",
-  databaseURL:"https://education-bd8a9-default-rtdb.firebaseio.com",
-  projectId:"education-bd8a9",
-  storageBucket:"education-bd8a9.firebasestorage.app",
-  messagingSenderId:"44581091231",
-  appId:"1:44581091231:android:76d10f0d2597d3b64bafaa"
-});
-const db = getDatabase(app);
-
-// ADMIN AUTH
-const ADMIN_PASS = 'SKAdmin@2026'; // Yahan apna password change karein
-const isAdmin = sessionStorage.getItem('sk_admin');
-if(isAdmin) document.getElementById('login-overlay').style.display='none';
-
-window.checkAdminPass = () => {
-  const p = document.getElementById('admin-pass').value;
-  if(p === ADMIN_PASS){
-    sessionStorage.setItem('sk_admin','1');
-    document.getElementById('login-overlay').style.display='none';
-    loadDashboard();
+// Password Check
+window.checkPw=()=>{
+  const v=document.getElementById('pw-input').value;
+  if(v===ADMIN_PASS){
+    document.getElementById('pw-screen').style.display='none';
+    document.getElementById('admin-wrap').style.display='block';
+    loadAll();
   } else {
-    const m=document.getElementById('lo-msg');
-    m.className='msg err';m.textContent='Galat password!';
+    document.getElementById('pw-err').textContent='Galat password! Dobara try karein.';
+    document.getElementById('pw-input').value='';
+    document.getElementById('pw-input').focus();
   }
 };
 
-window.adminLogout = () => {
-  sessionStorage.removeItem('sk_admin');
-  window.location.reload();
-};
-
-// PAGE SWITCHING
-const titles = {'dashboard':'📊 Dashboard','add-course':'➕ Course Add Karo','all-courses':'📚 All Courses','users':'👥 All Users','slider':'🖼️ Slider Images'};
-window.showPage = (p, btn) => {
-  document.querySelectorAll('.page-wrap').forEach(el=>el.classList.remove('active'));
-  document.querySelectorAll('.sb-link').forEach(el=>el.classList.remove('active'));
-  document.getElementById('page-'+p).classList.add('active');
-  btn.classList.add('active');
-  document.getElementById('tb-title').textContent = titles[p]||p;
-  if(p==='all-courses') loadAllCourses();
-  if(p==='users') loadAllUsers();
-  if(p==='slider') loadSliderList();
-};
-
-window.toggleType = () => {
-  const t=document.querySelector('input[name="ctype"]:checked').value;
-  document.getElementById('yt-field').style.display=t==='video'?'block':'none';
-  document.getElementById('pdf-field').style.display=t==='pdf'?'block':'none';
-};
-
-function showMsg(id,txt,type){
-  const el=document.getElementById(id);
-  el.className='msg '+type; el.textContent=txt;
-  setTimeout(()=>{el.style.display='none';el.className='msg';},4000);
+// -------- Pre-load default course --------
+async function ensureDefaultCourse(){
+  const snap=await get(ref(db,'courses'));
+  let hasDream=false;
+  if(snap.exists()){
+    Object.values(snap.val()).forEach(c=>{if(c.title==='Apna Dream 465+')hasDream=true;});
+  }
+  if(!hasDream){
+    const cid=push(ref(db,'courses')).key;
+    await set(ref(db,'courses/'+cid),{
+      title:'Apna Dream 465+',
+      category:'',subcategory:'',
+      contentType:'course',
+      isFree:false,
+      posterUrl:'poster.png',
+      description:'Complete preparation course for scoring 465+ in your exams. Covers all subjects.',
+      createdAt:new Date().toISOString(),
+      isContainer:true
+    });
+  }
 }
 
-// DASHBOARD
-async function loadDashboard(){
+function loadAll(){ensureDefaultCourse();loadStats();loadCourseTree();loadSlides();}
+window.showTab=(tab,btn)=>{
+  document.querySelectorAll('.section-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.anav').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  btn.classList.add('active');
+  if(tab==='users')loadUsers();
+  if(tab==='courses')loadCourseTree();
+  if(tab==='slider')loadSlides();
+};
+
+// STATS
+async function loadStats(){
   try{
-    const [us,cs]=await Promise.all([get(ref(db,'users')),get(ref(db,'courses'))]);
-    const users=us.exists()?Object.values(us.val()):[];
-    const courses=cs.exists()?Object.values(cs.val()):[];
-    document.getElementById('st-users').textContent=users.length;
-    document.getElementById('st-courses').textContent=courses.length;
-    document.getElementById('st-free').textContent=courses.filter(c=>c.isFree).length;
-    document.getElementById('st-paid').textContent=courses.filter(c=>!c.isFree).length;
-    const tbody=document.getElementById('dash-users');
-    if(!users.length){tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:#aaa">Koi user abhi tak nahi</td></tr>';return;}
-    tbody.innerHTML=users.slice(-10).reverse().map(u=>`<tr><td>${u.name||'-'}</td><td>${u.email||'-'}</td><td>${u.phone||'-'}</td><td>${u.registeredAt?new Date(u.registeredAt).toLocaleDateString('en-IN'):'-'}</td></tr>`).join('');
+    const [uSnap,cSnap]=await Promise.all([get(ref(db,'users')),get(ref(db,'courses'))]);
+    const uCount=uSnap.exists()?Object.keys(uSnap.val()).length:0;
+    let total=0,free=0,paid=0;
+    if(cSnap.exists()){
+      Object.values(cSnap.val()).forEach(c=>{
+        if(c.contentType==='video'||c.contentType==='pdf'){total++;if(c.isFree)free++;else paid++;}
+      });
+    }
+    document.getElementById('st-users').textContent=uCount;
+    document.getElementById('st-courses').textContent=total;
+    document.getElementById('st-free').textContent=free;
+    document.getElementById('st-paid').textContent=paid;
   }catch(e){}
 }
 
-window.addCourse = async () => {
-  const title=document.getElementById('c-title').value.trim();
-  const cat=document.getElementById('c-cat').value;
-  const sub=document.getElementById('c-sub').value;
-  const type=document.querySelector('input[name="ctype"]:checked').value;
-  const isFree=document.querySelector('input[name="cfree"]:checked').value==='true';
-  const yt=document.getElementById('c-yt').value.trim();
-  const pdf=document.getElementById('c-pdf').value.trim();
-  const poster=document.getElementById('c-poster').value.trim();
-  const desc=document.getElementById('c-desc').value.trim();
-  if(!title||!cat||!sub){showMsg('add-msg','Title, Category, Subcategory zaroori hain','err');return;}
-  if(type==='video'&&!yt){showMsg('add-msg','YouTube link daalein','err');return;}
-  if(type==='pdf'&&!pdf){showMsg('add-msg','PDF link daalein','err');return;}
-  const btn=document.querySelector('#page-add-course .btn-pri');
-  btn.textContent='Uploading...';btn.disabled=true;
+// COURSE TREE
+async function loadCourseTree(){
+  const wrap=document.getElementById('course-tree');
   try{
-    await push(ref(db,'courses'),{title,category:cat,subcategory:sub,type,isFree,youtubeLink:yt,pdfUrl:pdf,posterUrl:poster,description:desc,createdAt:new Date().toISOString()});
-    showMsg('add-msg','✅ Course successfully upload ho gaya!','ok');
-    ['c-title','c-yt','c-pdf','c-poster','c-desc'].forEach(id=>{document.getElementById(id).value='';});
-    document.getElementById('c-cat').value='';
-    document.getElementById('c-sub').value='';
-  }catch(e){showMsg('add-msg','Error: '+e.message,'err');}
-  btn.textContent='📤 Course Upload karo';btn.disabled=false;
+    const snap=await get(ref(db,'courses'));
+    // Group content items under category->subcategory
+    // Also show course containers
+    let containers={},content=[];
+    if(snap.exists()){
+      Object.entries(snap.val()).forEach(([id,c])=>{
+        if(c.isContainer) containers[id]=c;
+        else if(c.contentType==='video'||c.contentType==='pdf') content.push([id,c]);
+      });
+    }
+    // Build tree by category -> subcat
+    const tree={};
+    CATEGORIES.forEach(cat=>{tree[cat]={};SUBCATEGORIES.forEach(sub=>{tree[cat][sub]=[];});});
+    content.forEach(([id,c])=>{
+      const cat=c.category,sub=c.subcategory;
+      if(cat&&sub&&tree[cat]&&tree[cat][sub])tree[cat][sub].push([id,c]);
+      else{if(!tree['Other'])tree['Other']={General:[]};if(!tree['Other'].General)tree['Other'].General=[];tree['Other'].General.push([id,c]);}
+    });
+    let html='';
+    // Course containers first
+    if(Object.keys(containers).length){
+      html+='<div style="margin-bottom:10px"><div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">📦 Course Containers</div>';
+      Object.entries(containers).forEach(([id,c])=>{
+        html+=`<div class="content-item">
+          <div style="width:50px;height:36px;flex-shrink:0;border-radius:6px;overflow:hidden;background:#e8eaf6;display:flex;align-items:center;justify-content:center;font-size:18px">
+            ${c.posterUrl?`<img src="${c.posterUrl}" style="width:50px;height:36px;object-fit:cover;border-radius:6px" onerror="this.parentElement.textContent='📦'">`:'📦'}
+          </div>
+          <div class="ci-info"><div class="ci-title">${c.title}</div><div class="ci-meta">Course Container • ${c.description?c.description.substring(0,60)+'...':''}</div></div>
+          <button class="ci-del" onclick="delItem('${id}')">Delete</button>
+        </div>`;
+      });
+      html+='</div>';
+    }
+    // Category tree
+    CATEGORIES.forEach(cat=>{
+      const catItems=Object.values(tree[cat]||{}).flat();
+      html+=`<div class="tree-cat" onclick="toggleTree('tc-${cat}',this)">
+        <span class="tree-arrow">▶</span> ${cat} <span style="margin-left:auto;font-size:11px;color:var(--muted)">${catItems.length} items</span>
+        <button onclick="event.stopPropagation();showAddContent('${cat}',null)" style="background:var(--pri);color:#fff;border:none;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;margin-left:6px">+ Add</button>
+      </div>
+      <div class="tree-sub" id="tc-${cat}">`;
+      SUBCATEGORIES.forEach(sub=>{
+        const subItems=tree[cat][sub]||[];
+        html+=`<div class="tree-subcat" onclick="toggleTree('ts-${cat}-${sub}',this)">
+          <span class="tree-arrow">▶</span> ${sub} <span style="margin-left:auto;font-size:11px;color:var(--muted)">${subItems.length}</span>
+          <button onclick="event.stopPropagation();showAddContent('${cat}','${sub}')" style="background:var(--acc);color:#fff;border:none;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;margin-left:6px">+ Add</button>
+        </div>
+        <div class="tree-items" id="ts-${cat}-${sub}">`;
+        if(!subItems.length) html+='<div style="font-size:12px;color:var(--muted);padding:8px;text-align:center">Koi content nahi</div>';
+        subItems.forEach(([id,c])=>{
+          html+=`<div class="content-item">
+            <span class="ci-ico">${c.contentType==='video'?'🎥':'📄'}</span>
+            <div class="ci-info">
+              <div class="ci-title">${c.title}</div>
+              <div class="ci-meta">${c.isFree?'Free':'Paid'} • ${c.contentType==='video'?'YouTube':'PDF Drive'}</div>
+              ${c.contentType==='video'&&c.youtubeLink?`<div class="ci-meta" style="word-break:break-all">${c.youtubeLink.substring(0,50)}...</div>`:''}
+              ${c.contentType==='pdf'&&c.pdfUrl?`<div class="ci-meta" style="word-break:break-all">${c.pdfUrl.substring(0,50)}...</div>`:''}
+            </div>
+            <button class="ci-del" onclick="delItem('${id}')">Delete</button>
+          </div>`;
+        });
+        html+='</div>';
+      });
+      html+='</div>';
+    });
+    wrap.innerHTML=html||'<div class="empty-state">Koi content nahi</div>';
+  }catch(e){wrap.innerHTML='<div style="color:red">Error: '+e.message+'</div>';}
+}
+window.toggleTree=(id,el)=>{
+  const panel=document.getElementById(id);
+  if(!panel)return;
+  const open=panel.classList.toggle('open');
+  const arr=el.querySelector('.tree-arrow');
+  if(arr)arr.style.transform=open?'rotate(90deg)':'none';
+};
+window.showAddContent=(cat,sub)=>{
+  const body=document.getElementById('content-modal-body');
+  body.innerHTML=`<button class="modal-close" onclick="closeContentModal()">✕</button>
+  <div class="modal-title">Content Add Karein</div>
+  <div class="modal-sub">${cat}${sub?' → '+sub:''}</div>
+  <div class="add-type-row">
+    <button class="at-btn active" id="at-video" onclick="switchType('video')">🎥 Video</button>
+    <button class="at-btn" id="at-pdf" onclick="switchType('pdf')">📄 PDF</button>
+  </div>
+  <div id="content-form">
+    <div class="form-group"><label>Content Title *</label><div class="input-wrap"><input type="text" id="ct-title" placeholder="Jaise: Chapter 1 – Basics"></div></div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Category</label>
+        <select id="ct-cat">${CATEGORIES.map(c=>`<option value="${c}" ${c===cat?'selected':''}>${c}</option>`).join('')}</select>
+      </div>
+      <div class="form-group">
+        <label>Sub-Category</label>
+        <select id="ct-sub">${SUBCATEGORIES.map(s=>`<option value="${s}" ${s===sub?'selected':''}>${s}</option>`).join('')}</select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Access Type</label>
+        <select id="ct-access"><option value="free">Free</option><option value="paid">Paid</option></select>
+      </div>
+      <div class="form-group">
+        <label>Poster URL (optional)</label>
+        <div class="input-wrap"><input type="url" id="ct-poster" placeholder="Image URL"></div>
+      </div>
+    </div>
+    <div id="video-fields">
+      <div class="form-group"><label>YouTube Video Link *</label><div class="input-wrap"><input type="url" id="ct-yt" placeholder="https://youtube.com/watch?v=..."></div></div>
+      <div class="form-group"><label>Thumbnail URL (optional)</label><div class="input-wrap"><input type="url" id="ct-thumb" placeholder="YouTube thumbnail ya custom URL"></div></div>
+    </div>
+    <div id="pdf-fields" style="display:none">
+      <div class="form-group"><label>Google Drive PDF Link *</label><div class="input-wrap"><input type="url" id="ct-pdf" placeholder="https://drive.google.com/..."></div></div>
+      <div class="form-group"><label>Description (optional)</label><div class="input-wrap"><textarea id="ct-desc" placeholder="Course ke baare mein likhein..." style="height:70px;resize:vertical"></textarea></div></div>
+    </div>
+    <div class="msg" id="cm-msg"></div>
+    <button class="btn btn-primary btn-block" id="cm-save" onclick="saveContent('${cat}','${sub}')">Content Add Karein ✅</button>
+  </div>`;
+  document.getElementById('content-modal').classList.add('open');
+};
+window.switchType=(type)=>{
+  document.getElementById('at-video').classList.toggle('active',type==='video');
+  document.getElementById('at-pdf').classList.toggle('active',type==='pdf');
+  document.getElementById('video-fields').style.display=type==='video'?'block':'none';
+  document.getElementById('pdf-fields').style.display=type==='pdf'?'block':'none';
+};
+window.saveContent=async(defaultCat,defaultSub)=>{
+  const type=document.getElementById('at-video').classList.contains('active')?'video':'pdf';
+  const title=document.getElementById('ct-title').value.trim();
+  const cat=document.getElementById('ct-cat').value;
+  const sub=document.getElementById('ct-sub').value;
+  const isFree=document.getElementById('ct-access').value==='free';
+  const poster=document.getElementById('ct-poster').value.trim();
+  const msg=document.getElementById('cm-msg');
+  if(!title){msg.textContent='Title bharein';msg.className='msg show msg-error';return;}
+  let data={title,category:cat,subcategory:sub,contentType:type,isFree,posterUrl:poster||'',createdAt:new Date().toISOString()};
+  if(type==='video'){
+    const yt=document.getElementById('ct-yt').value.trim();
+    const thumb=document.getElementById('ct-thumb').value.trim();
+    if(!yt){msg.textContent='YouTube link bharein';msg.className='msg show msg-error';return;}
+    data.youtubeLink=yt;data.thumbnail=thumb||'';
+    // Auto-generate thumbnail if not provided
+    if(!thumb&&yt){
+      try{const vid=yt.includes('v=')?yt.split('v=')[1].split('&')[0]:yt.split('/').pop().split('?')[0];data.thumbnail=`https://img.youtube.com/vi/${vid}/mqdefault.jpg`;}catch{}
+    }
+    if(!data.posterUrl&&data.thumbnail)data.posterUrl=data.thumbnail;
+  }else{
+    const pdf=document.getElementById('ct-pdf').value.trim();
+    const desc=document.getElementById('ct-desc').value.trim();
+    if(!pdf){msg.textContent='PDF link bharein';msg.className='msg show msg-error';return;}
+    data.pdfUrl=pdf;data.description=desc;
+  }
+  const btn=document.getElementById('cm-save');
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Saving...';
+  try{
+    await push(ref(db,'courses'),data);
+    closeContentModal();
+    loadCourseTree();loadStats();
+  }catch(e){msg.textContent='Error: '+e.message;msg.className='msg show msg-error';btn.disabled=false;btn.textContent='Content Add Karein ✅';}
+};
+window.closeContentModal=()=>document.getElementById('content-modal').classList.remove('open');
+
+// Add Course Container
+window.addCourseModal=()=>{
+  const body=document.getElementById('course-modal-body');
+  body.innerHTML=`<button class="modal-close" onclick="closeCourseModal()">✕</button>
+  <div class="modal-title">New Course Container</div>
+  <div class="modal-sub">Ek main course banayein jiske under categories hongi</div>
+  <div class="form-group"><label>Course Title *</label><div class="input-wrap"><input type="text" id="nc-title" placeholder="Jaise: Apna Dream 465+"></div></div>
+  <div class="form-group"><label>Description</label><div class="input-wrap"><textarea id="nc-desc" placeholder="Course ke baare mein..." style="height:70px"></textarea></div></div>
+  <div class="form-row">
+    <div class="form-group"><label>Poster Image URL</label><div class="input-wrap"><input type="url" id="nc-poster" placeholder="poster.png ya image URL"></div></div>
+    <div class="form-group"><label>Access</label><select id="nc-access"><option value="free">Free</option><option value="paid">Paid</option></select></div>
+  </div>
+  <div class="msg" id="nc-msg"></div>
+  <button class="btn btn-primary btn-block" id="nc-save" onclick="saveCourseContainer()">Course Add Karein</button>`;
+  document.getElementById('course-modal').classList.add('open');
+};
+window.saveCourseContainer=async()=>{
+  const title=document.getElementById('nc-title').value.trim();
+  const desc=document.getElementById('nc-desc').value.trim();
+  const poster=document.getElementById('nc-poster').value.trim();
+  const isFree=document.getElementById('nc-access').value==='free';
+  const msg=document.getElementById('nc-msg');
+  if(!title){msg.textContent='Title zarur bharein';msg.className='msg show msg-error';return;}
+  const btn=document.getElementById('nc-save');btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Saving...';
+  try{
+    await push(ref(db,'courses'),{title,description:desc,posterUrl:poster||'',isFree,contentType:'course',isContainer:true,createdAt:new Date().toISOString()});
+    closeCourseModal();loadCourseTree();loadStats();
+  }catch(e){msg.textContent='Error: '+e.message;msg.className='msg show msg-error';btn.disabled=false;btn.textContent='Course Add Karein';}
+};
+window.closeCourseModal=()=>document.getElementById('course-modal').classList.remove('open');
+
+// Delete
+window.delItem=async(id)=>{
+  if(!confirm('Yeh item delete karna chahte hain?'))return;
+  try{await remove(ref(db,'courses/'+id));loadCourseTree();loadStats();}catch(e){alert('Delete fail: '+e.message);}
 };
 
-async function loadAllCourses(){
-  const snap=await get(ref(db,'courses'));
-  const tbody=document.getElementById('courses-table');
-  if(!snap.exists()){tbody.innerHTML='<tr><td colspan="5" style="text-align:center;color:#aaa">Koi course nahi</td></tr>';return;}
-  const entries=Object.entries(snap.val()).reverse();
-  tbody.innerHTML=entries.map(([id,c])=>`<tr>
-    <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${c.title||''}">${c.title||'-'}</td>
-    <td>${c.category||'-'}</td>
-    <td><span class="chip chip-${c.type}">${c.type==='video'?'🎥 Video':'📄 PDF'}</span></td>
-    <td><span class="chip chip-${c.isFree?'free':'paid'}">${c.isFree?'Free':'Paid'}</span></td>
-    <td><button class="btn-danger" onclick="delCourse('${id}')">🗑</button></td>
-  </tr>`).join('');
+// USERS
+async function loadUsers(){
+  const wrap=document.getElementById('users-wrap');
+  try{
+    const snap=await get(ref(db,'users'));
+    if(!snap.exists()){wrap.innerHTML='<div class="empty-state">Koi user nahi hai abhi</div>';return;}
+    const users=Object.entries(snap.val());
+    wrap.innerHTML=`<div style="overflow-x:auto"><table class="users-table">
+      <thead><tr><th>#</th><th>Naam</th><th>Email</th><th>Mobile</th><th>Registered</th></tr></thead>
+      <tbody>${users.map(([id,u],i)=>`<tr>
+        <td>${i+1}</td><td>${u.name||'-'}</td><td>${u.email||'-'}</td>
+        <td>${u.phone||'-'}</td>
+        <td>${u.registeredAt?new Date(u.registeredAt).toLocaleDateString('en-IN'):'-'}</td>
+      </tr>`).join('')}</tbody>
+    </table></div><div style="font-size:12px;color:var(--muted);margin-top:8px;padding:4px">Total: ${users.length} users</div>`;
+  }catch(e){wrap.innerHTML='<div style="color:red">Error: '+e.message+'</div>';}
 }
 
-window.delCourse = async (id) => {
-  if(!confirm('Yeh course delete karna chahte hain?')) return;
-  await remove(ref(db,'courses/'+id));
-  loadAllCourses();
-};
-
-async function loadAllUsers(){
-  const snap=await get(ref(db,'users'));
-  const tbody=document.getElementById('users-table');
-  if(!snap.exists()){tbody.innerHTML='<tr><td colspan="5" style="text-align:center;color:#aaa">Koi user nahi</td></tr>';return;}
-  const users=Object.values(snap.val()).reverse();
-  tbody.innerHTML=users.map(u=>`<tr><td>${u.name||'-'}</td><td>${u.email||'-'}</td><td>${u.phone||'-'}</td><td>${u.class||'10th'}</td><td>${u.registeredAt?new Date(u.registeredAt).toLocaleDateString('en-IN'):'-'}</td></tr>`).join('');
+// SLIDER
+async function loadSlides(){
+  const wrap=document.getElementById('slides-wrap');
+  try{
+    const snap=await get(ref(db,'slider'));
+    if(!snap.exists()||!Object.keys(snap.val()).length){wrap.innerHTML='<div class="empty-state">Koi slide nahi</div>';return;}
+    wrap.innerHTML=Object.entries(snap.val()).map(([id,s])=>`
+      <div class="slider-item">
+        <img class="slider-thumb" src="${s.url||s}" alt="slide" onerror="this.src='https://via.placeholder.com/60x40?text=IMG'">
+        <div class="slider-url">${s.url||s}</div>
+        <button class="del-sl" onclick="delSlide('${id}')">Delete</button>
+      </div>`).join('');
+  }catch(e){}
 }
-
-window.addSlider = async () => {
+window.addSlide=async()=>{
   const url=document.getElementById('sl-url').value.trim();
-  if(!url){showMsg('sl-msg','Image URL daalein','err');return;}
-  await push(ref(db,'slider'),{url});
-  showMsg('sl-msg','✅ Slider image add ho gayi!','ok');
-  document.getElementById('sl-url').value='';
-  loadSliderList();
+  if(!url){alert('URL bharein');return;}
+  try{await push(ref(db,'slider'),{url});document.getElementById('sl-url').value='';loadSlides();}catch(e){alert('Error: '+e.message);}
 };
-
-async function loadSliderList(){
-  const snap=await get(ref(db,'slider'));
-  const el=document.getElementById('slider-list');
-  if(!snap.exists()){el.innerHTML='<div style="color:#aaa;font-size:13px">Abhi koi image nahi</div>';return;}
-  const entries=Object.entries(snap.val());
-  el.innerHTML='<div class="slider-grid">'+entries.map(([id,s])=>`<div class="slider-item"><img src="${s.url||s}" alt="slide" onerror="this.parentElement.innerHTML='❌'"><button class="slider-del" onclick="delSlider('${id}')">✕</button></div>`).join('')+'</div>';
-}
-
-window.delSlider = async (id) => {
-  if(!confirm('Delete?')) return;
-  await remove(ref(db,'slider/'+id));
-  loadSliderList();
+window.delSlide=async(id)=>{
+  if(!confirm('Slide delete karna chahte hain?'))return;
+  try{await remove(ref(db,'slider/'+id));loadSlides();}catch(e){alert('Error: '+e.message);}
 };
-
-if(isAdmin) loadDashboard();
 </script>
 </body>
 </html>

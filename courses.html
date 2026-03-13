@@ -4,179 +4,148 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SK Education – Courses</title>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--pri:#1a237e;--acc:#ff6f00;--bg:#f0f2ff;--card:#fff;--muted:#757575}
-body{font-family:'Poppins',sans-serif;background:var(--bg);min-height:100vh;padding-bottom:76px}
-.header{background:linear-gradient(135deg,#1a237e,#3949ab);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(26,35,126,.3)}
-.back{background:rgba(255,255,255,.2);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.page-title{font-family:'Baloo 2',cursive;font-size:20px;font-weight:800}
-.filters{display:flex;gap:7px;padding:12px 14px;overflow-x:auto;background:#fff;border-bottom:1px solid #e8e8e8}
-.filters::-webkit-scrollbar{display:none}
-.fb{padding:6px 14px;border-radius:20px;border:2px solid #e0e0e0;background:transparent;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);font-family:'Poppins',sans-serif;transition:all .15s}
+body{padding-bottom:76px}
+.filters-bar{background:#fff;border-bottom:1px solid #ebebeb;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:10px 12px;display:flex;gap:7px;position:sticky;top:52px;z-index:100}
+.filters-bar::-webkit-scrollbar{display:none}
+.fb{padding:7px 14px;border-radius:20px;border:2px solid var(--border);background:transparent;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);font-family:'Poppins',sans-serif;transition:all .15s;flex-shrink:0}
 .fb.active{border-color:var(--pri);background:var(--pri);color:#fff}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:14px}
-.card{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(26,35,126,.1);cursor:pointer;transition:all .18s}
-.card:hover{transform:translateY(-2px)}
-.thumb{width:100%;height:115px;object-fit:cover}
-.thumb-f{width:100%;height:115px;display:flex;align-items:center;justify-content:center;font-size:38px;background:linear-gradient(135deg,#e8eaf6,#c5cae9)}
-.ci{padding:10px}
-.cat{font-size:9px;font-weight:700;color:var(--acc);text-transform:uppercase;letter-spacing:1px}
-.title{font-size:12px;font-weight:700;color:#212121;margin:3px 0 5px;line-height:1.3}
-.tags{display:flex;gap:4px;flex-wrap:wrap}
-.tag{padding:2px 7px;border-radius:8px;font-size:9px;font-weight:700}
-.tag-free{background:#e8f5e9;color:#2e7d32}
-.tag-paid{background:#fff3e0;color:#e65100}
-.tag-video{background:#e3f2fd;color:#1565c0}
-.tag-pdf{background:#fce4ec;color:#c62828}
-.view-btn{display:block;width:100%;padding:8px;background:var(--pri);color:#fff;border:none;font-size:11px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif}
-.empty{grid-column:span 2;text-align:center;padding:48px 20px;color:var(--muted)}
-.empty .ei{font-size:48px;margin-bottom:12px}
-.bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;border-top:1px solid #e8e8e8;box-shadow:0 -2px 14px rgba(26,35,126,.1);z-index:200}
-.bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px;text-decoration:none;color:var(--muted);font-size:10px;font-weight:500;gap:2px;transition:color .2s}
-.bnav-item .ni{font-size:22px}
-.bnav-item.active{color:var(--pri)}
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500}
-.modal-bg.open{display:flex;align-items:flex-end}
-.modal-box{background:#fff;border-radius:22px 22px 0 0;width:100%;padding:22px 20px;max-height:88vh;overflow-y:auto;animation:su .25s ease}
-@keyframes su{from{transform:translateY(60px);opacity:0}to{transform:none;opacity:1}}
-.mc{float:right;background:none;border:none;font-size:24px;cursor:pointer;color:#9e9e9e}
-.mt{font-size:17px;font-weight:700;color:var(--pri);margin-bottom:5px}
-.mm{font-size:12px;color:var(--muted);margin-bottom:14px}
-.yt-f{width:100%;aspect-ratio:16/9;border:none;border-radius:12px}
-.pdf-a{display:flex;align-items:center;gap:10px;background:#e8eaf6;border-radius:12px;padding:16px;text-decoration:none;color:var(--pri);font-weight:600;font-size:14px}
-.spin{display:inline-block;width:26px;height:26px;border:3px solid #e0e0e0;border-top-color:var(--pri);border-radius:50%;animation:spin .7s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.loading{text-align:center;padding:40px;grid-column:span 2}
+.courses-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:14px}
+.cc{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;transition:all .18s}
+.cc:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.cc-thumb{width:100%;height:110px;object-fit:cover;display:block}
+.cc-fall{width:100%;height:110px;display:flex;align-items:center;justify-content:center;font-size:38px;background:linear-gradient(135deg,#e8eaf6,#c5cae9)}
+.cc-body{padding:10px}
+.cc-cat{font-size:9px;font-weight:700;color:var(--acc);text-transform:uppercase;letter-spacing:1px}
+.cc-sub{font-size:9px;color:var(--muted);margin-left:4px}
+.cc-title{font-size:12px;font-weight:700;color:var(--text);margin:4px 0 6px;line-height:1.3}
+.cc-tags{display:flex;gap:4px;flex-wrap:wrap}
+.open-btn{display:block;width:100%;padding:9px;background:var(--pri);color:#fff;border:none;font-size:11px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif}
+.yt-frame{width:100%;aspect-ratio:16/9;border:none;border-radius:12px;margin-bottom:12px}
+.pdf-open-btn{display:flex;align-items:center;gap:12px;background:#e8eaf6;border-radius:12px;padding:16px;text-decoration:none;color:var(--pri);font-weight:600;font-size:14px;margin-bottom:10px;transition:background .15s}
+.pdf-open-btn:hover{background:#c5cae9}
 </style>
 </head>
 <body>
-<div class="header">
-  <button class="back" onclick="history.back()">←</button>
-  <div class="page-title" id="pg-title">📚 Courses</div>
+<div class="page-header">
+  <div class="header-row">
+    <button class="back-btn" onclick="history.back()">←</button>
+    <div class="page-title-text" id="pg-title">📚 Courses</div>
+  </div>
 </div>
-
-<div class="filters" id="filters">
-  <button class="fb active" onclick="applyFilter('all',this)">Sab</button>
-  <button class="fb" onclick="applyFilter('free',this)">🆓 Free</button>
-  <button class="fb" onclick="applyFilter('paid',this)">💰 Paid</button>
-  <button class="fb" onclick="applyFilter('video',this)">🎥 Video</button>
-  <button class="fb" onclick="applyFilter('pdf',this)">📄 PDF/Notes</button>
-  <button class="fb" onclick="applyFilter('Hindi',this)">Hindi</button>
-  <button class="fb" onclick="applyFilter('Math',this)">Math</button>
-  <button class="fb" onclick="applyFilter('Science',this)">Science</button>
-  <button class="fb" onclick="applyFilter('History',this)">History</button>
-  <button class="fb" onclick="applyFilter('Sanskrit',this)">Sanskrit</button>
-  <button class="fb" onclick="applyFilter('English',this)">English</button>
+<div class="filters-bar">
+  <button class="fb active" onclick="setF('all',this)">Sab</button>
+  <button class="fb" onclick="setF('free',this)">🆓 Free</button>
+  <button class="fb" onclick="setF('paid',this)">💰 Paid</button>
+  <button class="fb" onclick="setF('video',this)">🎥 Video</button>
+  <button class="fb" onclick="setF('pdf',this)">📄 PDF/Notes</button>
+  <button class="fb" onclick="setF('Hindi',this)">Hindi</button>
+  <button class="fb" onclick="setF('Sanskrit',this)">Sanskrit</button>
+  <button class="fb" onclick="setF('Math',this)">Math</button>
+  <button class="fb" onclick="setF('Science',this)">Science</button>
+  <button class="fb" onclick="setF('History',this)">History</button>
+  <button class="fb" onclick="setF('English',this)">English</button>
+  <button class="fb" onclick="setF('NCERT',this)">NCERT</button>
 </div>
-
-<div class="grid" id="grid">
-  <div class="loading"><div class="spin"></div></div>
+<div class="courses-grid" id="grid">
+  <div class="loading-center" style="grid-column:span 2"><div class="big-spinner"></div><span>Loading...</span></div>
 </div>
-
 <div class="bnav">
   <a class="bnav-item" href="dashboard.html"><span class="ni">🏠</span>Home</a>
   <a class="bnav-item active" href="courses.html"><span class="ni">🎓</span>Courses</a>
   <a class="bnav-item" href="courses.html?t=pdf"><span class="ni">📄</span>Notes</a>
   <a class="bnav-item" href="profile.html"><span class="ni">👤</span>Profile</a>
 </div>
-
-<div class="modal-bg" id="modal" onclick="if(event.target===this)closeM()">
-  <div class="modal-box" id="modal-body"></div>
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeM()">
+  <div class="modal-sheet" id="modal-body"></div>
 </div>
-
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
-const app = initializeApp({
-  apiKey:"AIzaSyAXvrUDLT9JosL5eE4SsXqiuGP8rmS9RYk",
-  authDomain:"education-bd8a9.firebaseapp.com",
-  databaseURL:"https://education-bd8a9-default-rtdb.firebaseio.com",
-  projectId:"education-bd8a9"
-});
-const db = getDatabase(app);
-if(!localStorage.getItem('sk_user')) window.location.href='index.html';
-
-const params = new URLSearchParams(location.search);
-const pf=params.get('f'), pt=params.get('t'), pc=params.get('cat');
-
-let all=[];
-let activeFilter='all';
-
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import{getDatabase,ref,get}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+const FC={apiKey:"AIzaSyAXvrUDLT9JosL5eE4SsXqiuGP8rmS9RYk",authDomain:"education-bd8a9.firebaseapp.com",databaseURL:"https://education-bd8a9-default-rtdb.firebaseio.com",projectId:"education-bd8a9",storageBucket:"education-bd8a9.firebasestorage.app",messagingSenderId:"44581091231",appId:"1:44581091231:android:76d10f0d2597d3b64bafaa"};
+const app=initializeApp(FC),db=getDatabase(app);
+if(!localStorage.getItem('sk_user')){window.location.replace('index.html');}
+const params=new URLSearchParams(location.search);
+let activeKey='all',allItems=[];
 async function load(){
-  const snap=await get(ref(db,'courses'));
-  const grid=document.getElementById('grid');
-  if(!snap.exists()){grid.innerHTML='<div class="empty"><div class="ei">📭</div>Koi course nahi hai abhi</div>';return;}
-  all=Object.entries(snap.val()).reverse();
-  // Apply URL filter
-  if(pf==='free'){activeFilter='free';setActiveBtn('free');}
-  else if(pf==='paid'){activeFilter='paid';setActiveBtn('paid');}
-  if(pt==='pdf'){activeFilter='pdf';setActiveBtn('pdf');}
-  if(pc){activeFilter=pc;setActiveBtn(pc);}
-  render();
+  try{
+    const snap=await get(ref(db,'courses'));
+    if(!snap.exists()){render([]);return;}
+    // Only show video and pdf content (not course containers)
+    allItems=Object.entries(snap.val()).filter(([_,c])=>c.contentType==='video'||c.contentType==='pdf').reverse();
+    if(params.get('f')==='free'){activeKey='free';}
+    if(params.get('f')==='paid'){activeKey='paid';}
+    if(params.get('t')==='pdf'){activeKey='pdf';document.getElementById('pg-title').textContent='📄 PDF & Notes';}
+    if(params.get('t')==='video'){activeKey='video';}
+    if(params.get('cat')){activeKey=params.get('cat');document.getElementById('pg-title').textContent='📚 '+params.get('cat');}
+    document.querySelectorAll('.fb').forEach(b=>{
+      const oc=b.getAttribute('onclick')||'';
+      b.classList.toggle('active',oc.includes("'"+activeKey+"'")||(activeKey==='all'&&oc.includes("'all'")));
+    });
+    render(filtered());
+  }catch(e){document.getElementById('grid').innerHTML='<div style="grid-column:span 2;padding:30px;text-align:center;color:red">Load error: '+e.message+'</div>';}
 }
-
-function setActiveBtn(val){
-  document.querySelectorAll('.fb').forEach(b=>{
-    b.classList.toggle('active',b.textContent.trim()===val||b.getAttribute('onclick').includes("'"+val+"'"));
+function filtered(){
+  return allItems.filter(([_,c])=>{
+    if(activeKey==='all')return true;
+    if(activeKey==='free')return c.isFree;
+    if(activeKey==='paid')return !c.isFree;
+    if(activeKey==='video')return c.contentType==='video';
+    if(activeKey==='pdf')return c.contentType==='pdf';
+    return c.category===activeKey;
   });
 }
-
-function render(){
-  const filtered = all.filter(([_,c])=>{
-    if(activeFilter==='all') return true;
-    if(activeFilter==='free') return c.isFree;
-    if(activeFilter==='paid') return !c.isFree;
-    if(activeFilter==='video') return c.type==='video';
-    if(activeFilter==='pdf') return c.type==='pdf';
-    return c.category===activeFilter;
-  });
+function render(list){
   const grid=document.getElementById('grid');
-  if(!filtered.length){grid.innerHTML='<div class="empty"><div class="ei">🔍</div>Koi match nahi mila</div>';return;}
-  grid.innerHTML=filtered.map(([id,c])=>{
-    const th=c.posterUrl?`<img class="thumb" src="${c.posterUrl}" alt="${c.title}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`:'' ;
-    return `<div class="card" onclick="openC('${id}')">
-      ${th}
-      <div class="thumb-f" ${c.posterUrl?'style="display:none"':''}>📚</div>
-      <div class="ci">
-        <div class="cat">${c.category||''}</div>
-        <div class="title">${c.title||'Untitled'}</div>
-        <div class="tags">
-          <span class="tag tag-${c.isFree?'free':'paid'}">${c.isFree?'Free':'Paid'}</span>
-          <span class="tag tag-${c.type}">${c.type==='video'?'🎥':'📄'}</span>
+  if(!list.length){grid.innerHTML=`<div class="empty-state" style="grid-column:span 2"><div class="empty-icon">🔍</div><div class="empty-title">Koi content nahi mila</div><div class="empty-sub">Dusra filter try karein</div></div>`;return;}
+  grid.innerHTML=list.map(([id,c])=>{
+    const poster=c.posterUrl||c.thumbnail||'';
+    return `<div class="cc" onclick="openC('${id}')">
+      ${poster?`<img class="cc-thumb" src="${poster}" alt="${c.title||''}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`:''}
+      <div class="cc-fall" ${poster?'style="display:none"':''}>📚</div>
+      <div class="cc-body">
+        <div><span class="cc-cat">${c.category||''}</span><span class="cc-sub">${c.subcategory||''}</span></div>
+        <div class="cc-title">${c.title||'Untitled'}</div>
+        <div class="cc-tags">
+          <span class="chip chip-${c.isFree?'free':'paid'}">${c.isFree?'Free':'Paid'}</span>
+          <span class="chip chip-${c.contentType}">${c.contentType==='video'?'🎥 Video':'📄 PDF'}</span>
         </div>
       </div>
-      <button class="view-btn">Dekhein</button>
+      <button class="open-btn">Dekhein</button>
     </div>`;
   }).join('');
 }
-
-window.applyFilter=(f,btn)=>{
-  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  activeFilter=f;
-  render();
-};
-
+window.setF=(key,btn)=>{document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active'));btn.classList.add('active');activeKey=key;render(filtered());};
 window.openC=(id)=>{
-  const c=all.find(([i])=>i===id)?.[1];if(!c)return;
-  let html=`<button class="mc" onclick="closeM()">✕</button>
-    <div class="mt">${c.title}</div>
-    <div class="mm">${c.category||''} ${c.subcategory?'→ '+c.subcategory:''} • ${c.isFree?'🆓 Free':'💰 Paid'}</div>`;
-  if(c.type==='video'&&c.youtubeLink){
-    const vid=c.youtubeLink.includes('v=')?c.youtubeLink.split('v=')[1].split('&')[0]:c.youtubeLink.split('/').pop().split('?')[0];
-    html+=`<iframe class="yt-f" src="https://www.youtube.com/embed/${vid}" allowfullscreen></iframe>`;
-  }else if(c.pdfUrl){
-    html+=`<a class="pdf-a" href="${c.pdfUrl}" target="_blank">📄 PDF / Notes kholen</a>`;
+  const found=allItems.find(([i])=>i===id);
+  if(!found)return;
+  const c=found[1];
+  let html=`<button class="modal-close" onclick="closeM()">✕</button>
+    <div class="modal-title">${c.title}</div>
+    <div class="modal-sub">${c.category||''}${c.subcategory?' → '+c.subcategory:''}&nbsp;•&nbsp;${c.isFree?'🆓 Free':'💰 Paid'}</div>`;
+  if(c.contentType==='video'&&c.youtubeLink){
+    const vid=getYTId(c.youtubeLink);
+    html+=`<iframe class="yt-frame" src="https://www.youtube.com/embed/${vid}" allow="autoplay;encrypted-media" allowfullscreen></iframe>`;
+  } else if(c.pdfUrl){
+    html+=`<a class="pdf-open-btn" href="${c.pdfUrl}" target="_blank" rel="noopener noreferrer">
+      <span style="font-size:30px">📄</span>
+      <div><div style="font-weight:700">${c.title}</div><div style="font-size:12px;color:var(--muted);margin-top:2px">Tap karein → PDF/Notes khulegा</div></div>
+      <span style="margin-left:auto;font-size:20px">→</span></a>`;
   }
-  if(c.description)html+=`<p style="margin-top:12px;font-size:13px;color:#616161;line-height:1.6">${c.description}</p>`;
+  if(c.description)html+=`<div style="font-size:13px;color:#555;line-height:1.65;margin-top:10px">${c.description}</div>`;
   document.getElementById('modal-body').innerHTML=html;
   document.getElementById('modal').classList.add('open');
 };
 window.closeM=()=>document.getElementById('modal').classList.remove('open');
-
+function getYTId(url){
+  try{
+    if(url.includes('v='))return url.split('v=')[1].split('&')[0];
+    if(url.includes('youtu.be/'))return url.split('youtu.be/')[1].split('?')[0];
+    if(url.includes('embed/'))return url.split('embed/')[1].split('?')[0];
+    return url.split('/').pop().split('?')[0];
+  }catch{return url;}
+}
 load();
 </script>
 </body>

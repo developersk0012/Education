@@ -4,259 +4,86 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SK Education – Sign Up</title>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link rel="stylesheet" href="css/style.css">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Poppins',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0d1b5e;padding:16px;position:relative;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 80% 50%,rgba(255,111,0,.15) 0%,transparent 60%);pointer-events:none}
-.wrap{width:100%;max-width:420px;position:relative;z-index:1}
-.logo-area{text-align:center;margin-bottom:22px}
-.logo-ring{width:72px;height:72px;border-radius:50%;background:#fff;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;border:3px solid #ffd600;box-shadow:0 0 0 6px rgba(255,214,0,.12)}
-.logo-ring img{width:58px;height:58px;object-fit:contain;border-radius:50%}
-.logo-ring .lf{font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:#1a237e}
+body{background:#0d1654;display:flex;align-items:center;justify-content:center;padding:16px;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 75% 55%,rgba(255,111,0,.18) 0%,transparent 55%);pointer-events:none}
+.wrap{width:100%;max-width:400px;z-index:1;position:relative}
+.logo-area{text-align:center;margin-bottom:20px}
+.logo-sm{width:72px;height:72px;border-radius:50%;background:#fff;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;border:3px solid var(--gold);box-shadow:0 0 0 6px rgba(255,214,0,.10);overflow:hidden}
+.logo-sm img{width:58px;height:58px;object-fit:contain}
+.logo-sm .lf{font-family:'Baloo 2',cursive;font-size:24px;font-weight:800;color:var(--pri)}
 .brand{font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:#fff}
-.tagline{font-size:10px;color:#ffd600;letter-spacing:2px;text-transform:uppercase}
-.card{background:rgba(255,255,255,.97);border-radius:22px;padding:28px 24px;box-shadow:0 24px 64px rgba(0,0,0,.35);position:relative;overflow:hidden}
-.card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#ff6f00,#1a237e,#ff6f00)}
-.card-title{font-size:19px;font-weight:600;color:#1a237e;margin-bottom:4px}
-.card-sub{font-size:13px;color:#757575;margin-bottom:20px}
-.form-group{margin-bottom:13px}
-label{display:block;font-size:11px;font-weight:600;color:#424242;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
-.input-wrap{position:relative}
-.input-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;color:#9e9e9e}
-input[type=text],input[type=email],input[type=tel],input[type=password]{width:100%;padding:11px 11px 11px 38px;border:2px solid #e0e0e0;border-radius:10px;font-family:'Poppins',sans-serif;font-size:14px;color:#212121;background:#fafafa;outline:none;transition:border-color .2s}
-input:focus{border-color:#1a237e;background:#fff}
-.btn{width:100%;padding:13px;border:none;border-radius:12px;font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-accent{background:linear-gradient(135deg,#ff6f00,#e65100);color:#fff;box-shadow:0 4px 18px rgba(255,111,0,.35)}
-.btn-accent:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(255,111,0,.45)}
-.btn-google{background:#fff;color:#3c4043;border:2px solid #e0e0e0}
-.btn-google:hover{background:#f8f9fa}
-.btn-google img{width:20px;height:20px}
-.divider{display:flex;align-items:center;gap:10px;margin:14px 0;color:#bdbdbd;font-size:12px}
-.divider::before,.divider::after{content:'';flex:1;height:1px;background:#e0e0e0}
-.link-row{text-align:center;font-size:13px;color:#757575;margin-top:14px}
-.link-row a{color:#1a237e;font-weight:600;text-decoration:none}
-.msg{padding:10px 14px;border-radius:9px;font-size:13px;margin-bottom:12px;display:none}
-.msg.err{background:#ffebee;color:#c62828;border-left:3px solid #c62828;display:block}
-.msg.ok{background:#e8f5e9;color:#2e7d32;border-left:3px solid #2e7d32;display:block}
-.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tagline{font-size:10px;color:var(--gold);letter-spacing:2px;text-transform:uppercase}
+.rcard{background:rgba(255,255,255,.97);border-radius:22px;padding:26px 22px;box-shadow:0 24px 60px rgba(0,0,0,.4);position:relative;overflow:hidden}
+.rcard::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--acc),var(--pri),var(--acc))}
+.rcard h2{font-size:19px;font-weight:700;color:var(--pri);margin-bottom:4px}
+.rcard p{font-size:13px;color:var(--muted);margin-bottom:18px}
+.bl{text-align:center;font-size:13px;color:var(--muted);margin-top:16px}
+.bl a{font-weight:600;color:var(--pri);text-decoration:none}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="logo-area">
-    <div class="logo-ring">
+    <div class="logo-sm">
       <img src="sk.png" alt="SK" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
       <div class="lf" style="display:none">SK</div>
     </div>
     <div class="brand">SK Education</div>
     <div class="tagline">Naya Account Banayein</div>
   </div>
-
-  <div class="card">
-    <div class="card-title">Register karein 🎓</div>
-    <div class="card-sub">Free mein join karein aur padhna shuru karein</div>
+  <div class="rcard">
+    <h2>Register karein 🎓</h2>
+    <p>Free mein join karein — koi OTP nahi!</p>
     <div class="msg" id="msg"></div>
 
-    <!-- Google Sign Up -->
-    <button class="btn btn-google" id="g-btn" onclick="doGoogle()">
-      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G">
-      Google se Sign Up (1 Click!)
+    <button class="btn btn-google btn-block" id="g-btn" onclick="doGoogle()">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" height="20" alt="G">
+      Google se Sign Up — 1 Click!
     </button>
+    <div class="divider">ya manually bharein</div>
 
-    <div class="divider">ya phir manually bharein</div>
+    <div class="form-group"><label>Pura Naam *</label>
+      <div class="input-wrap has-icon"><span class="input-icon">👤</span>
+        <input type="text" id="name" placeholder="Jaise: Rahul Kumar"></div></div>
 
-    <div class="form-group">
-      <label>Pura Naam</label>
-      <div class="input-wrap">
-        <span class="input-icon">👤</span>
-        <input type="text" id="name" placeholder="Jaise: Rahul Kumar">
-      </div>
-    </div>
+    <div class="form-group"><label>Email Address *</label>
+      <div class="input-wrap has-icon"><span class="input-icon">✉️</span>
+        <input type="email" id="email" placeholder="apna@email.com" autocomplete="email"></div></div>
 
-    <div class="form-group">
-      <label>Email Address</label>
-      <div class="input-wrap">
-        <span class="input-icon">✉️</span>
-        <input type="email" id="email" placeholder="apna@email.com">
-      </div>
-    </div>
+    <div class="form-group"><label>Mobile Number *</label>
+      <div class="input-wrap has-icon"><span class="input-icon">📱</span>
+        <input type="tel" id="phone" placeholder="10 digit number" maxlength="10"></div></div>
 
-    <div class="form-group">
-      <label>Mobile Number</label>
-      <div class="input-wrap">
-        <span class="input-icon">📱</span>
-        <input type="tel" id="phone" placeholder="10 digit number" maxlength="10">
-      </div>
-    </div>
+    <div class="form-group"><label>Password *</label>
+      <div class="input-wrap has-icon"><span class="input-icon">🔑</span>
+        <input type="password" id="pass" placeholder="Min 6 characters" onkeydown="if(event.key==='Enter')doReg()"></div></div>
 
-    <div class="form-group">
-      <label>Password banayein</label>
-      <div class="input-wrap">
-        <span class="input-icon">🔑</span>
-        <input type="password" id="password" placeholder="Minimum 6 characters">
-      </div>
-    </div>
-
-    <button class="btn btn-accent" id="reg-btn" onclick="doRegister()">
-      Register karo &amp; ID Card Download karo 🎉
-    </button>
-
-    <div class="link-row">Pehle se account hai? <a href="index.html">Login karein</a></div>
+    <button class="btn btn-accent btn-block" id="reg-btn" onclick="doReg()">Register &amp; Dashboard Kholein 🚀</button>
+    <div class="bl">Pehle se account? <a href="index.html">Login karein</a></div>
   </div>
 </div>
-
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
-const app = initializeApp({
-  apiKey:"AIzaSyAXvrUDLT9JosL5eE4SsXqiuGP8rmS9RYk",
-  authDomain:"education-bd8a9.firebaseapp.com",
-  databaseURL:"https://education-bd8a9-default-rtdb.firebaseio.com",
-  projectId:"education-bd8a9",
-  storageBucket:"education-bd8a9.firebasestorage.app",
-  messagingSenderId:"44581091231",
-  appId:"1:44581091231:android:76d10f0d2597d3b64bafaa"
-});
-const auth = getAuth(app);
-const db = getDatabase(app);
-
-function showMsg(txt,type){const el=document.getElementById('msg');el.textContent=txt;el.className='msg '+type;}
-
-function generatePDF(name, email, phone){
-  const {jsPDF} = window.jspdf;
-  const doc = new jsPDF({orientation:'portrait',unit:'mm',format:'a5'});
-  // Background
-  doc.setFillColor(13,27,94);
-  doc.rect(0,0,148,210,'F');
-  // White card
-  doc.setFillColor(255,255,255);
-  doc.roundedRect(8,8,132,194,8,8,'F');
-  // Header band
-  doc.setFillColor(26,35,126);
-  doc.roundedRect(8,8,132,48,8,8,'F');
-  doc.setFillColor(26,35,126);
-  doc.rect(8,44,132,12,'F');
-  // Gold line
-  doc.setDrawColor(255,214,0);
-  doc.setLineWidth(1.2);
-  doc.line(8,56,140,56);
-  // Title
-  doc.setTextColor(255,214,0);
-  doc.setFontSize(17);
-  doc.setFont('helvetica','bold');
-  doc.text('SK EDUCATION',74,24,{align:'center'});
-  doc.setTextColor(255,255,255);
-  doc.setFontSize(8.5);
-  doc.setFont('helvetica','normal');
-  doc.text('Swami Vivekanand Study Point',74,33,{align:'center'});
-  doc.text('Direction to Success',74,41,{align:'center'});
-  // ID Card heading
-  doc.setTextColor(26,35,126);
-  doc.setFontSize(11);
-  doc.setFont('helvetica','bold');
-  doc.text('STUDENT IDENTITY CARD',74,68,{align:'center'});
-  // Avatar circle
-  doc.setFillColor(232,234,246);
-  doc.circle(74,92,16,'F');
-  doc.setDrawColor(255,111,0);
-  doc.setLineWidth(1);
-  doc.circle(74,92,16,'S');
-  doc.setTextColor(26,35,126);
-  doc.setFontSize(20);
-  doc.setFont('helvetica','bold');
-  doc.text((name||'S').charAt(0).toUpperCase(),74,97,{align:'center'});
-  // Name big
-  doc.setFontSize(14);
-  doc.setFont('helvetica','bold');
-  doc.setTextColor(26,35,126);
-  doc.text(name||'Student',74,116,{align:'center'});
-  // Divider
-  doc.setDrawColor(230,230,230);
-  doc.setLineWidth(0.4);
-  doc.line(18,121,130,121);
-  // Details
-  const rows=[['Email',email||'-'],['Mobile',phone||'-'],['Class','10th (2026-27)'],['Institution','Swami Vivekanand Study Point'],['Registered',new Date().toLocaleDateString('en-IN')]];
-  let y=130;
-  rows.forEach(([l,v])=>{
-    doc.setFontSize(8);doc.setFont('helvetica','normal');doc.setTextColor(140,140,140);
-    doc.text(l,18,y);
-    doc.setFont('helvetica','bold');doc.setTextColor(33,33,33);
-    const vt=v.length>32?v.substring(0,32)+'...':v;
-    doc.text(vt,18,y+5);
-    y+=13;
-  });
-  // Footer
-  doc.setFillColor(255,111,0);
-  doc.rect(8,188,132,14,'F');
-  doc.setTextColor(255,255,255);
-  doc.setFontSize(7.5);
-  doc.setFont('helvetica','normal');
-  doc.text('skeducation.in  •  Valid Academic Year 2026-27',74,196,{align:'center'});
-  doc.save('SK_Education_ID_'+(name||'student').replace(/ /g,'_')+'.pdf');
-}
-
-async function saveUserAndRedirect(uid, userData){
-  await set(ref(db,'users/'+uid), userData);
-  localStorage.setItem('sk_user', JSON.stringify({uid,...userData}));
-  generatePDF(userData.name, userData.email, userData.phone);
-  setTimeout(()=>{ window.location.href='dashboard.html'; }, 1200);
-}
-
-window.doRegister = async () => {
-  const name  = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const pass  = document.getElementById('password').value.trim();
-  if(!name)  { showMsg('Apna naam bharein','err'); return; }
-  if(!email) { showMsg('Email address bharein','err'); return; }
-  if(!phone || phone.length<10) { showMsg('Valid 10-digit mobile number bharein','err'); return; }
-  if(pass.length<6) { showMsg('Password kam se kam 6 characters ka hona chahiye','err'); return; }
-  const btn=document.getElementById('reg-btn');
-  btn.innerHTML='<span class="spinner"></span> Register ho raha hai...';
-  btn.disabled=true;
-  try{
-    const cred = await createUserWithEmailAndPassword(auth, email, pass);
-    await updateProfile(cred.user,{displayName:name});
-    const userData={name,email,phone,class:'10th',school:'Swami Vivekanand Study Point',registeredAt:new Date().toISOString(),role:'student'};
-    showMsg('✅ Registration successful! ID Card download ho rahi hai...','ok');
-    await saveUserAndRedirect(cred.user.uid, userData);
-  }catch(e){
-    const msgs={'auth/email-already-in-use':'Yeh email pehle se registered hai. Login karein','auth/invalid-email':'Valid email address dalein','auth/weak-password':'Password kam se kam 6 characters ka hona chahiye'};
-    showMsg(msgs[e.code]||'Error: '+e.message,'err');
-    btn.innerHTML='Register karo &amp; ID Card Download karo 🎉';
-    btn.disabled=false;
-  }
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import{getAuth,createUserWithEmailAndPassword,GoogleAuthProvider,signInWithPopup,updateProfile}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import{getDatabase,ref,set,get}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+const app=initializeApp({apiKey:"AIzaSyAXvrUDLT9JosL5eE4SsXqiuGP8rmS9RYk",authDomain:"education-bd8a9.firebaseapp.com",databaseURL:"https://education-bd8a9-default-rtdb.firebaseio.com",projectId:"education-bd8a9",storageBucket:"education-bd8a9.firebasestorage.app",messagingSenderId:"44581091231",appId:"1:44581091231:android:76d10f0d2597d3b64bafaa"});
+const auth=getAuth(app),db=getDatabase(app);
+if(localStorage.getItem('sk_user'))window.location.replace('dashboard.html');
+function msg(t,tp){const e=document.getElementById('msg');e.textContent=t;e.className='msg show msg-'+(tp==='e'?'err':'ok')}
+async function go(uid,d){await set(ref(db,'users/'+uid),d);localStorage.setItem('sk_user',JSON.stringify({uid,...d}));window.location.replace('dashboard.html')}
+window.doReg=async()=>{
+  const n=document.getElementById('name').value.trim(),em=document.getElementById('email').value.trim(),ph=document.getElementById('phone').value.trim(),pw=document.getElementById('pass').value;
+  if(!n)return msg('Naam bharein','e');if(!em)return msg('Email bharein','e');if(ph.length<10)return msg('10-digit mobile number','e');if(pw.length<6)return msg('Password min 6 characters','e');
+  const b=document.getElementById('reg-btn');b.innerHTML='<span class="spinner"></span> Registering...';b.disabled=true;
+  try{const c=await createUserWithEmailAndPassword(auth,em,pw);await updateProfile(c.user,{displayName:n});await go(c.user.uid,{name:n,email:em,phone:ph,class:'10th',school:'Swami Vivekanand Study Point',registeredAt:new Date().toISOString(),role:'student'});}
+  catch(e){const m={'auth/email-already-in-use':'Email already registered. Login karein.','auth/weak-password':'Password min 6 characters'};msg(m[e.code]||e.message,'e');b.innerHTML='Register &amp; Dashboard Kholein 🚀';b.disabled=false;}
 };
-
-window.doGoogle = async () => {
-  const btn=document.getElementById('g-btn');
-  btn.innerHTML='<span class="spinner" style="border-top-color:#1a237e"></span> Connecting...';
-  btn.disabled=true;
-  try{
-    const provider=new GoogleAuthProvider();
-    const cred=await signInWithPopup(auth,provider);
-    const user=cred.user;
-    const snap=await get(ref(db,'users/'+user.uid));
-    if(snap.exists()){
-      localStorage.setItem('sk_user',JSON.stringify({uid:user.uid,...snap.val()}));
-      window.location.href='dashboard.html';
-      return;
-    }
-    // New Google user
-    const userData={name:user.displayName||'Student',email:user.email,phone:'',class:'10th',school:'Swami Vivekanand Study Point',registeredAt:new Date().toISOString(),role:'student'};
-    showMsg('✅ Google se register ho gaye! ID Card download ho rahi hai...','ok');
-    await saveUserAndRedirect(user.uid, userData);
-  }catch(e){
-    showMsg('Google sign up fail: '+e.message,'err');
-    btn.innerHTML='<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:20px"> Google se Sign Up (1 Click!)';
-    btn.disabled=false;
-  }
+window.doGoogle=async()=>{
+  const b=document.getElementById('g-btn');b.innerHTML='<span class="spinner spinner-dk"></span> Connecting...';b.disabled=true;
+  try{const c=await signInWithPopup(auth,new GoogleAuthProvider());const s=await get(ref(db,'users/'+c.user.uid));if(s.exists()){localStorage.setItem('sk_user',JSON.stringify({uid:c.user.uid,...s.val()}));window.location.replace('dashboard.html');return;}await go(c.user.uid,{name:c.user.displayName||'Student',email:c.user.email,phone:'',class:'10th',school:'Swami Vivekanand Study Point',registeredAt:new Date().toISOString(),role:'student'});}
+  catch(e){msg('Google fail: '+e.message,'e');b.innerHTML='<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" height="20"> Google se Sign Up — 1 Click!';b.disabled=false;}
 };
 </script>
 </body>
