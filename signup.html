@@ -3,24 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SK Education – Sign Up</title>
+<title>SK Education – Register</title>
 <link rel="stylesheet" href="css/style.css">
 <style>
-body{background:#0d1654;display:flex;align-items:center;justify-content:center;padding:16px;min-height:100vh}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 75% 55%,rgba(255,111,0,.18) 0%,transparent 55%);pointer-events:none}
-.wrap{width:100%;max-width:400px;z-index:1;position:relative}
-.logo-area{text-align:center;margin-bottom:20px}
-.logo-sm{width:72px;height:72px;border-radius:50%;background:#fff;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;border:3px solid var(--gold);box-shadow:0 0 0 6px rgba(255,214,0,.10);overflow:hidden}
-.logo-sm img{width:58px;height:58px;object-fit:contain}
-.logo-sm .lf{font-family:'Baloo 2',cursive;font-size:24px;font-weight:800;color:var(--pri)}
-.brand{font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:#fff}
-.tagline{font-size:10px;color:var(--gold);letter-spacing:2px;text-transform:uppercase}
-.rcard{background:rgba(255,255,255,.97);border-radius:22px;padding:26px 22px;box-shadow:0 24px 60px rgba(0,0,0,.4);position:relative;overflow:hidden}
-.rcard::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--acc),var(--pri),var(--acc))}
-.rcard h2{font-size:19px;font-weight:700;color:var(--pri);margin-bottom:4px}
-.rcard p{font-size:13px;color:var(--muted);margin-bottom:18px}
-.bl{text-align:center;font-size:13px;color:var(--muted);margin-top:16px}
-.bl a{font-weight:600;color:var(--pri);text-decoration:none}
+body{background:#0d1654;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;position:relative}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 30% 70%,rgba(255,111,0,.15),transparent 50%);pointer-events:none}
+.wrap{width:100%;max-width:400px;position:relative;z-index:1}
+.logo-area{text-align:center;margin-bottom:22px}
+.logo-sm{width:76px;height:76px;border-radius:50%;background:#fff;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;border:3px solid var(--gold);box-shadow:0 0 0 8px rgba(255,214,0,.1);overflow:hidden}
+.logo-sm img{width:60px;height:60px;object-fit:contain;border-radius:50%}
+.logo-sm .lf{font-family:'Baloo 2',cursive;font-size:26px;font-weight:800;color:var(--pri)}
+.brand{font-family:'Baloo 2',cursive;font-size:24px;font-weight:800;color:#fff}
+.card{background:rgba(255,255,255,.97);border-radius:22px;padding:26px 22px;box-shadow:0 24px 60px rgba(0,0,0,.4);position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--acc),var(--pri),var(--acc))}
+.card h2{font-size:19px;font-weight:700;color:var(--pri);margin-bottom:4px}
+.card p{font-size:13px;color:var(--muted);margin-bottom:18px}
+.bottom-link{text-align:center;font-size:13px;color:var(--muted);margin-top:16px}
+.bottom-link a{font-weight:700}
 </style>
 </head>
 <body>
@@ -31,59 +30,79 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       <div class="lf" style="display:none">SK</div>
     </div>
     <div class="brand">SK Education</div>
-    <div class="tagline">Naya Account Banayein</div>
   </div>
-  <div class="rcard">
+  <div class="card">
     <h2>Register karein 🎓</h2>
     <p>Free mein join karein — koi OTP nahi!</p>
     <div class="msg" id="msg"></div>
-
-    <button class="btn btn-google btn-block" id="g-btn" onclick="doGoogle()">
-      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" height="20" alt="G">
-      Google se Sign Up — 1 Click!
+    <button class="btn btn-google btn-block" id="g-btn" onclick="doGoogle()" style="margin-bottom:4px">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" alt="G">
+      Google se Sign Up (1 Click!)
     </button>
     <div class="divider">ya manually bharein</div>
-
-    <div class="form-group"><label>Pura Naam *</label>
+    <div class="form-group">
+      <label>Pura Naam *</label>
       <div class="input-wrap has-icon"><span class="input-icon">👤</span>
-        <input type="text" id="name" placeholder="Jaise: Rahul Kumar"></div></div>
-
-    <div class="form-group"><label>Email Address *</label>
+        <input type="text" id="name" placeholder="Jaise: Rahul Kumar">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Email Address *</label>
       <div class="input-wrap has-icon"><span class="input-icon">✉️</span>
-        <input type="email" id="email" placeholder="apna@email.com" autocomplete="email"></div></div>
-
-    <div class="form-group"><label>Mobile Number *</label>
+        <input type="email" id="email" placeholder="apna@email.com">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Mobile Number *</label>
       <div class="input-wrap has-icon"><span class="input-icon">📱</span>
-        <input type="tel" id="phone" placeholder="10 digit number" maxlength="10"></div></div>
-
-    <div class="form-group"><label>Password *</label>
+        <input type="tel" id="phone" placeholder="10 digit number" maxlength="10">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Password *</label>
       <div class="input-wrap has-icon"><span class="input-icon">🔑</span>
-        <input type="password" id="pass" placeholder="Min 6 characters" onkeydown="if(event.key==='Enter')doReg()"></div></div>
-
-    <button class="btn btn-accent btn-block" id="reg-btn" onclick="doReg()">Register &amp; Dashboard Kholein 🚀</button>
-    <div class="bl">Pehle se account? <a href="index.html">Login karein</a></div>
+        <input type="password" id="password" placeholder="Minimum 6 characters" onkeydown="if(event.key==='Enter')doRegister()">
+      </div>
+    </div>
+    <button class="btn btn-accent btn-block" id="reg-btn" onclick="doRegister()">Register karo &amp; Dashboard kholein 🚀</button>
+    <div class="bottom-link">Pehle se account hai? <a href="index.html">Login karein</a></div>
   </div>
 </div>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import{getAuth,createUserWithEmailAndPassword,GoogleAuthProvider,signInWithPopup,updateProfile}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import{getDatabase,ref,set,get}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-const app=initializeApp({apiKey:"AIzaSyAXvrUDLT9JosL5eE4SsXqiuGP8rmS9RYk",authDomain:"education-bd8a9.firebaseapp.com",databaseURL:"https://education-bd8a9-default-rtdb.firebaseio.com",projectId:"education-bd8a9",storageBucket:"education-bd8a9.firebasestorage.app",messagingSenderId:"44581091231",appId:"1:44581091231:android:76d10f0d2597d3b64bafaa"});
-const auth=getAuth(app),db=getDatabase(app);
-if(localStorage.getItem('sk_user'))window.location.replace('dashboard.html');
-function msg(t,tp){const e=document.getElementById('msg');e.textContent=t;e.className='msg show msg-'+(tp==='e'?'err':'ok')}
-async function go(uid,d){await set(ref(db,'users/'+uid),d);localStorage.setItem('sk_user',JSON.stringify({uid,...d}));window.location.replace('dashboard.html')}
-window.doReg=async()=>{
-  const n=document.getElementById('name').value.trim(),em=document.getElementById('email').value.trim(),ph=document.getElementById('phone').value.trim(),pw=document.getElementById('pass').value;
-  if(!n)return msg('Naam bharein','e');if(!em)return msg('Email bharein','e');if(ph.length<10)return msg('10-digit mobile number','e');if(pw.length<6)return msg('Password min 6 characters','e');
-  const b=document.getElementById('reg-btn');b.innerHTML='<span class="spinner"></span> Registering...';b.disabled=true;
-  try{const c=await createUserWithEmailAndPassword(auth,em,pw);await updateProfile(c.user,{displayName:n});await go(c.user.uid,{name:n,email:em,phone:ph,class:'10th',school:'Swami Vivekanand Study Point',registeredAt:new Date().toISOString(),role:'student'});}
-  catch(e){const m={'auth/email-already-in-use':'Email already registered. Login karein.','auth/weak-password':'Password min 6 characters'};msg(m[e.code]||e.message,'e');b.innerHTML='Register &amp; Dashboard Kholein 🚀';b.disabled=false;}
+const FC={apiKey:"AIzaSyAXvrUDLT9JosL5eE4SsXqiuGP8rmS9RYk",authDomain:"education-bd8a9.firebaseapp.com",databaseURL:"https://education-bd8a9-default-rtdb.firebaseio.com",projectId:"education-bd8a9",storageBucket:"education-bd8a9.firebasestorage.app",messagingSenderId:"44581091231",appId:"1:44581091231:android:76d10f0d2597d3b64bafaa"};
+const app=initializeApp(FC),auth=getAuth(app),db=getDatabase(app);
+if(localStorage.getItem('sk_user')){window.location.replace('dashboard.html');}
+function showMsg(t,type){const e=document.getElementById('msg');e.textContent=t;e.className='msg show '+(type==='err'?'msg-error':'msg-success');}
+async function saveAndGo(uid,u){await set(ref(db,'users/'+uid),u);localStorage.setItem('sk_user',JSON.stringify({uid,...u}));window.location.replace('dashboard.html');}
+window.doRegister=async()=>{
+  const name=document.getElementById('name').value.trim(),email=document.getElementById('email').value.trim(),phone=document.getElementById('phone').value.trim(),pass=document.getElementById('password').value;
+  if(!name){showMsg('Apna naam bharein','err');return;}
+  if(!email){showMsg('Email address bharein','err');return;}
+  if(phone.length<10){showMsg('Valid 10-digit mobile number bharein','err');return;}
+  if(pass.length<6){showMsg('Password 6 characters se zyada hona chahiye','err');return;}
+  const btn=document.getElementById('reg-btn');btn.innerHTML='<span class="spinner"></span> Register ho raha hai...';btn.disabled=true;
+  try{
+    const cred=await createUserWithEmailAndPassword(auth,email,pass);
+    await updateProfile(cred.user,{displayName:name});
+    const u={name,email,phone,class:'10th',school:'Swami Vivekanand Study Point',registeredAt:new Date().toISOString(),role:'student'};
+    await saveAndGo(cred.user.uid,u);
+  }catch(e){
+    const m={'auth/email-already-in-use':'Yeh email pehle se registered hai','auth/invalid-email':'Valid email dalein','auth/weak-password':'Password 6+ characters chahiye'};
+    showMsg(m[e.code]||'Error: '+e.message,'err');btn.innerHTML='Register karo &amp; Dashboard kholein 🚀';btn.disabled=false;
+  }
 };
 window.doGoogle=async()=>{
-  const b=document.getElementById('g-btn');b.innerHTML='<span class="spinner spinner-dk"></span> Connecting...';b.disabled=true;
-  try{const c=await signInWithPopup(auth,new GoogleAuthProvider());const s=await get(ref(db,'users/'+c.user.uid));if(s.exists()){localStorage.setItem('sk_user',JSON.stringify({uid:c.user.uid,...s.val()}));window.location.replace('dashboard.html');return;}await go(c.user.uid,{name:c.user.displayName||'Student',email:c.user.email,phone:'',class:'10th',school:'Swami Vivekanand Study Point',registeredAt:new Date().toISOString(),role:'student'});}
-  catch(e){msg('Google fail: '+e.message,'e');b.innerHTML='<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" height="20"> Google se Sign Up — 1 Click!';b.disabled=false;}
+  const btn=document.getElementById('g-btn');btn.innerHTML='<span class="spinner spinner-dark"></span> Connecting...';btn.disabled=true;
+  try{
+    const cred=await signInWithPopup(auth,new GoogleAuthProvider());
+    const snap=await get(ref(db,'users/'+cred.user.uid));
+    if(snap.exists()){localStorage.setItem('sk_user',JSON.stringify({uid:cred.user.uid,...snap.val()}));window.location.replace('dashboard.html');return;}
+    const u={name:cred.user.displayName||'Student',email:cred.user.email,phone:'',class:'10th',school:'Swami Vivekanand Study Point',registeredAt:new Date().toISOString(),role:'student'};
+    await saveAndGo(cred.user.uid,u);
+  }catch(e){showMsg('Google fail: '+e.message,'err');btn.innerHTML='<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20"> Google se Sign Up';btn.disabled=false;}
 };
 </script>
 </body>
